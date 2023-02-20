@@ -1,11 +1,12 @@
 import { useState } from "react";
+import BoardPage from "./pages/BoardPage";
 
 function App() {
   const [count, setCount] = useState(0);
 
   return (
     <div>
-      <h1>TASK MANAGER PROJECT</h1>
+      <BoardPage />
     </div>
   );
 }
