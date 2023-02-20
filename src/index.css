@@ -1,3 +1,36 @@
 .full-height-cont {
     min-height: 100vh;
 }
+
+.page-cont {
+    width: 100%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+} 
+@media (min-width: 576px) {
+    .page-cont {
+        width: 540px;
+    }
+}
+@media (min-width: 768px) {
+    .page-cont {
+        width: 720px;
+    }
+}
+@media (min-width: 992px) {
+    .page-cont {
+        width: 960px;
+    }
+}
+@media (min-width: 1200px) {
+    .page-cont {
+        width: 1140px;
+    }
+}
+@media (min-width: 1200px) {
+    .page-cont {
+        width: 1420px;
+    }
+}

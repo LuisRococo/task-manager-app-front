@@ -6,7 +6,7 @@ export const Footer: React.FC = () => {
   return (
     <div className="footer">
       <div className="footer-top footer-section">
-        <div className="container">
+        <div className="page-cont">
           <div className="d-flex align-items-center justify-content-center">
             <img className="logo" src={logoImg} alt="" />
             <h5>GreatBoard</h5>
@@ -22,7 +22,7 @@ export const Footer: React.FC = () => {
       </div>
 
       <div className="footer-bottom footer-section">
-        <div className="container">
+        <div className="page-cont">
           <p className="text-center m-0">© 2022 Copyright</p>
         </div>
       </div>
