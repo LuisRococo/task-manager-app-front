@@ -4,7 +4,7 @@ import logoImg from "../../../assets/logo.png";
 export const Navigation: React.FC = () => {
   return (
     <nav className="navbar bg-dark navbar-expand-lg navbar-dark">
-      <div className="container py-2">
+      <div className="page-cont py-2">
         <div className="d-flex align-items-center text-white">
           <img src={logoImg} alt="Project logo" className="logo" />
           GreatBoard

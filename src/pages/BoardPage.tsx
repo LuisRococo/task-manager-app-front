@@ -11,7 +11,7 @@ function BoardPage() {
   );
 
   return (
-    <div className="container full-height-cont">
+    <div className="page-cont full-height-cont">
       <BoardHeader boardTitle={boardTitle} projectImage={projectImage} />
       <TaskListContainer boardId={boardId} />
     </div>
