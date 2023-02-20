@@ -45,7 +45,7 @@ export const TaskList: React.FC<CardList> = ({ taskList }) => {
         {tasks.length == 0 && <EmptyTaskListCard />}
         {tasks.length != 0 &&
           tasks.map((task) => {
-            return <TaskCard {...task} />;
+            return <TaskCard key={task.taskId} {...task} />;
           })}
       </div>
     </div>
