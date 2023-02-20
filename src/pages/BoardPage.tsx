@@ -9,7 +9,7 @@ function BoardPage() {
   );
 
   return (
-    <div className="container">
+    <div className="container full-height-cont">
       <BoardHeader boardTitle={boardTitle} projectImage={projectImage} />
     </div>
   );
