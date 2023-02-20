@@ -1,5 +1,6 @@
 import { useState } from "react";
 import BoardPage from "./pages/BoardPage";
+import { Footer } from "./components/common/Footer/Footer";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -7,6 +8,7 @@ function App() {
   return (
     <div>
       <BoardPage />
+      <Footer />
     </div>
   );
 }
