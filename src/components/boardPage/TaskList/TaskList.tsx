@@ -1,12 +1,15 @@
-import React from "react";
+import React, { useState } from "react";
 import "./TaskList.scss";
 import { ITaskList } from "../../../interfaces/taskList";
+import { EmptyTaskListCard } from "./EmptyTaskListCard";
 
 interface CardList {
   taskList: ITaskList;
 }
 
 export const TaskList: React.FC<CardList> = ({ taskList }) => {
+  const [tasks, setTasks] = useState([]);
+
   return (
     <div className="col-12 col-md-4 col-lg-3 mx-2 col-inside-scroll pb-4 h-100">
       <div className="w-100 mb-5">
@@ -19,6 +22,8 @@ export const TaskList: React.FC<CardList> = ({ taskList }) => {
           style={{ backgroundColor: taskList.color }}
         ></div>
       </div>
+
+      <div>{tasks.length == 0 && <EmptyTaskListCard />}</div>
     </div>
   );
 };
