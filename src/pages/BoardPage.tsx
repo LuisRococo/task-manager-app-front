@@ -10,9 +10,16 @@ function BoardPage() {
     "https://via.placeholder.com/150"
   );
 
+  function handleBoardVisibilityChange() {}
+
   return (
     <div className="page-cont full-height-cont">
-      <BoardHeader boardTitle={boardTitle} projectImage={projectImage} />
+      <BoardHeader
+        boardTitle={boardTitle}
+        projectImage={projectImage}
+        boardVisibility={true}
+        onBoardVisibilityChange={handleBoardVisibilityChange}
+      />
       <TaskListContainer boardId={boardId} />
     </div>
   );
