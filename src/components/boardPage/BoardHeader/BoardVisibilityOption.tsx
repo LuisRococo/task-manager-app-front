@@ -20,7 +20,7 @@ export const BoardVisibilityOption: React.FC<BoardVisibilityOption> = ({
 
   return (
     <div>
-      <button className="btn btn-primary">
+      <button className="btn btn-primary" onClick={onClick}>
         {Icon} {textContent}
       </button>
     </div>
