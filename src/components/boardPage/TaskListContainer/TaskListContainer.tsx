@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import * as ReactDOM from "react-dom";
 import "./TaskListContainer.scss";
 import { TaskLists } from "../../../placeholders/taskListsPlaceholders";
 import { TaskList as TaskList } from "../TaskList/TaskList";
@@ -46,12 +47,16 @@ export const TaskListContainer: React.FC<TaskListContainer> = ({ boardId }) => {
 
   return (
     <>
-      <TaskListModal
-        onModalClose={handleModalClose}
-        taskList={modalTaskList}
-        visibility={modalVisibility}
-        onTaskListUpdate={handleTaskListUpdate}
-      />
+      {ReactDOM.createPortal(
+        <TaskListModal
+          onModalClose={handleModalClose}
+          taskList={modalTaskList}
+          visibility={modalVisibility}
+          onTaskListUpdate={handleTaskListUpdate}
+        />,
+        document.getElementById("task-list-option-modal") as any
+      )}
+
       <div className="overflow-auto">
         <div className="row-fluid row-fluid-scroll d-flex">
           {taskLists.map((taskList) => {
