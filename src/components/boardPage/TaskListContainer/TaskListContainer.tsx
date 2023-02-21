@@ -13,7 +13,7 @@ export const TaskListContainer: React.FC<TaskListContainer> = ({ boardId }) => {
     <div className="overflow-auto">
       <div className="row-fluid row-fluid-scroll d-flex">
         {taskLists.map((taskList) => {
-          return <TaskList taskList={taskList} />;
+          return <TaskList key={taskList.listId} taskList={taskList} />;
         })}
       </div>
     </div>
