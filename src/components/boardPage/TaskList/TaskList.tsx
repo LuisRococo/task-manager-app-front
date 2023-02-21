@@ -12,9 +12,10 @@ import {
 
 interface CardList {
   taskList: ITaskList;
+  onClick: (taskList: ITaskList) => void;
 }
 
-export const TaskList: React.FC<CardList> = ({ taskList }) => {
+export const TaskList: React.FC<CardList> = ({ taskList, onClick }) => {
   const [tasks, setTasks] = useState<ITask[]>([]);
 
   useEffect(() => {
@@ -30,7 +31,13 @@ export const TaskList: React.FC<CardList> = ({ taskList }) => {
 
   return (
     <div className="task-list mx-2 col-inside-scroll pb-4 h-100">
-      <div className="w-100 mb-5">
+      <div
+        className="w-100 mb-5"
+        style={{ cursor: "pointer" }}
+        onClick={() => {
+          onClick(taskList);
+        }}
+      >
         <div className="w-100 bg-light rounded-top p-3 text-center border">
           <p className="h6 m-0">{taskList.name}</p>
           <small className="text-muted">{taskList.priority}° Priority</small>
