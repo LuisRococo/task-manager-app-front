@@ -5,16 +5,12 @@ import { VscChromeClose } from "react-icons/vsc";
 interface Modal {
   children: React.ReactNode;
   visibility: boolean;
-  onModalOpen: () => void;
+  onClose: () => void;
 }
 
-export const Modal: React.FC<Modal> = ({
-  children,
-  visibility,
-  onModalOpen,
-}) => {
+export const Modal: React.FC<Modal> = ({ children, visibility, onClose }) => {
   const handleButtonClose = () => {
-    onModalOpen();
+    onClose();
   };
 
   if (!visibility) {
