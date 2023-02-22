@@ -4,6 +4,7 @@ import BoardHeader from "../components/boardPage/BoardHeader/BoardHeader";
 import { TaskListContainer } from "../components/boardPage/TaskListContainer/TaskListContainer";
 import { IBoard } from "../interfaces/board";
 import { board as boardPlaceholder } from "../placeholders/boardsPlaceholders";
+import { BoardMenu } from "../components/common/BoardMenu/BoardMenu";
 
 function BoardPage() {
   const boardId = 1;
@@ -21,15 +22,18 @@ function BoardPage() {
   if (!board) return <div className="page-cont full-height-cont"></div>;
 
   return (
-    <div className="page-cont full-height-cont">
-      <BoardHeader
-        boardTitle={board.title}
-        projectImage={projectImage}
-        boardVisibility={board.visibility}
-        onBoardVisibilityChange={handleBoardVisibilityChange}
-      />
-      <TaskListContainer boardId={boardId} />
-    </div>
+    <>
+      <BoardMenu />
+      <div className="page-cont full-height-cont">
+        <BoardHeader
+          boardTitle={board.title}
+          projectImage={projectImage}
+          boardVisibility={board.visibility}
+          onBoardVisibilityChange={handleBoardVisibilityChange}
+        />
+        <TaskListContainer boardId={boardId} />
+      </div>
+    </>
   );
 }
 

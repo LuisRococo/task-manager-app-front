@@ -1,0 +1,31 @@
+.board-menu-cont {
+    position: fixed;
+    left: 0;
+    right: 0;
+    z-index: 30;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.board-menu {
+    width: 300px;
+    height: 100vh;
+    background-color: rgb(243, 243, 243);
+}
+
+.board-menu-btn {
+    padding: 10px 30px;
+    border-bottom: 1px solid #E3E3E3;
+    cursor: pointer;
+}
+
+.board-menu-btn-cont {
+    border-top: 1px solid #E3E3E3;
+}
+
+.board-menu-btn:hover {
+    background-color: #E3E3E3;
+}
+
+.board-menu-btn:active {
+    background-color: #c4c4c4;
+}
