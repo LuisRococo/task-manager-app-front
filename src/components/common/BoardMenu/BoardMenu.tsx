@@ -3,7 +3,8 @@ import * as ReactDOM from "react-dom";
 import "./BoardMenu.scss";
 import logoImg from "../../../assets/logo.png";
 import { MenuBtn } from "./MenuBtn";
-import { GrHomeOption } from "react-icons/gr";
+import { BiTask } from "react-icons/bi";
+import { FaTasks } from "react-icons/fa";
 import { boardMenuVisibilityState } from "../../../state/recoilStates";
 import { useRecoilState } from "recoil";
 
@@ -34,9 +35,12 @@ export const BoardMenu = () => {
             </div>
 
             <div className="mt-5 board-menu-btn-cont">
-              <MenuBtn Icon={GrHomeOption} text="Pruebas" />
-              <MenuBtn Icon={GrHomeOption} text="Pruebas" />
-              <MenuBtn Icon={GrHomeOption} text="Pruebas" />
+              <MenuBtn Icon={BiTask} text="Create Task" onClick={() => {}} />
+              <MenuBtn
+                Icon={FaTasks}
+                text="Create Task List"
+                onClick={() => {}}
+              />
             </div>
           </div>
         </div>,
