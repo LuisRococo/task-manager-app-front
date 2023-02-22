@@ -13,12 +13,18 @@ export const Modal: React.FC<Modal> = ({ children, visibility, onClose }) => {
     onClose();
   };
 
+  function handleBackgroundClick(e: React.MouseEvent) {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }
+
   if (!visibility) {
     return null;
   }
 
   return (
-    <div className="page-modal">
+    <div className="page-modal" onClick={handleBackgroundClick}>
       <div className="modal-card">
         <div className="d-flex justify-content-end">
           <div className="modal-btn" onClick={handleButtonClose}>
