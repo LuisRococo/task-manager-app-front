@@ -25,6 +25,13 @@ export const useTaskListState = () => {
     setTaskLists(updatedTaskLists);
   }
 
+  function deleteTaskList(taskListId: number) {
+    const updatedTaskLists: ITaskListState[] = taskLists.filter((taskList) => {
+      return taskList.listId !== taskListId;
+    });
+    setTaskLists(updatedTaskLists);
+  }
+
   function findTaskList(taskListId: number) {
     for (let index = 0; index < taskLists.length; index++) {
       const taskList = taskLists[index];
@@ -41,5 +48,6 @@ export const useTaskListState = () => {
     setTaskLists,
     setSingleTaskList,
     findTaskList,
+    deleteTaskList,
   };
 };
