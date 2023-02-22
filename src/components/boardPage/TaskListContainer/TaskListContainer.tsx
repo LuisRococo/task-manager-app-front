@@ -5,56 +5,28 @@ import { TaskList as TaskList } from "../TaskList/TaskList";
 import { TaskListModal } from "../TaskListModal/TaskListModal";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 import { ITaskListState } from "../../../interfaces/taskList";
+import { useRecoilState } from "recoil";
+import { modalsState } from "../../../appState/modalsState";
+import { useModalState } from "../../../hooks/useModalState";
 
 interface TaskListContainer {}
 
 export const TaskListContainer: React.FC<TaskListContainer> = () => {
   const { taskLists, setSingleTaskList, findTaskList } = useTaskListState();
-  const [modalVisibility, setModalVisibility] = useState(false);
-  //! Fix modal as well
+  const { changeTaskListModalVisibility } = useModalState();
   const [modalTaskList, setModalTaskList] = useState<
     ITaskListState | undefined
   >(undefined);
 
-  function handleModalClose() {
-    setModalVisibility(false);
-  }
-
   function handleTaskListClick(taskList: ITaskListState) {
     setModalTaskList(taskList);
-    setModalVisibility(true);
-  }
-
-  function handleTaskListUpdate(
-    taskListId: number,
-    name: string,
-    priority: number,
-    color: string
-  ) {
-    setModalVisibility(false);
-
-    let taskListToUpdate = findTaskList(taskListId);
-
-    if (!taskListToUpdate) return;
-
-    taskListToUpdate = { ...taskListToUpdate };
-
-    taskListToUpdate.name = name;
-    taskListToUpdate.priority = priority;
-    taskListToUpdate.color = color;
-
-    setSingleTaskList(taskListToUpdate);
+    changeTaskListModalVisibility(true);
   }
 
   return (
     <>
       {ReactDOM.createPortal(
-        <TaskListModal
-          onModalClose={handleModalClose}
-          taskList={modalTaskList}
-          visibility={modalVisibility}
-          onTaskListUpdate={handleTaskListUpdate}
-        />,
+        <TaskListModal taskList={modalTaskList} />,
         document.getElementById("task-list-option-modal") as any
       )}
 

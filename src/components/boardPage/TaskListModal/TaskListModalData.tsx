@@ -1,5 +1,4 @@
 import React from "react";
-import { ITaskList } from "../../../interfaces/taskList";
 
 interface TaskListModalData {
   name: string;
