@@ -2,10 +2,10 @@ import React, { useEffect, useState } from "react";
 import "./BoardPage.scss";
 import BoardHeader from "../components/boardPage/BoardHeader/BoardHeader";
 import { TaskListContainer } from "../components/boardPage/TaskListContainer/TaskListContainer";
-import { board as boardPlaceholder } from "../placeholders/boardsPlaceholders";
 import { BoardMenu } from "../components/common/BoardMenu/BoardMenu";
 import { useBoardState } from "../hooks/useBoardState";
 import { useTaskListState } from "../hooks/useTaskListState";
+import { CreateTaskListModal } from "../components/boardPage/CreateTaskListModal/CreateTaskListModal";
 
 function BoardPage() {
   const boardId = 1;
@@ -22,6 +22,7 @@ function BoardPage() {
 
   return (
     <>
+      <CreateTaskListModal />
       <BoardMenu />
       <div className="page-cont full-height-cont">
         <BoardHeader

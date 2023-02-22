@@ -11,9 +11,16 @@ export const useModalState = () => {
     setModalsVisibility(stateToUpdate);
   }
 
+  function changeCreateTaskListModalVisibility(visible: boolean) {
+    const stateToUpdate: IModalsState = { ...modalsVisibility };
+    stateToUpdate.createTaskListModal = visible;
+    setModalsVisibility(stateToUpdate);
+  }
+
   return {
     changeTaskListModalVisibility,
     setModalsVisibility,
     modalsVisibility,
+    changeCreateTaskListModalVisibility,
   };
 };
