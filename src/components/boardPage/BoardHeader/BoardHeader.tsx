@@ -1,6 +1,7 @@
 import React from "react";
 import "./BoardHeader.scss";
 import { BoardVisibilityOption } from "./BoardVisibilityOption";
+import { BoardHeaderMenuBtn } from "./BoardHeaderMenuBtn";
 
 interface IBoardHeader {
   boardTitle: string;
@@ -34,10 +35,13 @@ const BoardHeader: React.FC<IBoardHeader> = ({
           </div>
         </div>
 
-        <BoardVisibilityOption
-          onClick={handleVisibilityChange}
-          visible={boardVisibility}
-        />
+        <div className="d-flex">
+          <BoardVisibilityOption
+            onClick={handleVisibilityChange}
+            visible={boardVisibility}
+          />
+          <BoardHeaderMenuBtn />
+        </div>
       </div>
       <hr />
     </div>
