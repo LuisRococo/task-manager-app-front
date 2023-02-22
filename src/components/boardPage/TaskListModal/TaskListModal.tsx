@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Modal } from "../../common/Modal/Modal";
-import { ITaskList } from "../../../interfaces/taskList";
 import { TaskListModalData } from "./TaskListModalData";
+import { ITaskListState } from "../../../interfaces/taskList";
+import { useModalState } from "../../../hooks/useModalState";
+import { useTaskListState } from "../../../hooks/useTaskListState";
 
 interface TaskListModal {
-  taskList?: ITaskList;
-  visibility: boolean;
-  onModalClose: () => void;
-  onTaskListUpdate: (
-    taskListId: number,
-    name: string,
-    priority: number,
-    color: string
-  ) => void;
+  taskList?: ITaskListState;
 }
 
 interface IFormValues {
@@ -21,30 +15,34 @@ interface IFormValues {
   color: string;
 }
 
-export const TaskListModal: React.FC<TaskListModal> = ({
-  taskList,
-  visibility,
-  onModalClose,
-  onTaskListUpdate,
-}) => {
+export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
   const [formValues, setFormValues] = useState<IFormValues>({
     name: "",
     priority: "",
     color: "",
   });
+  const { changeTaskListModalVisibility, modalsVisibility } = useModalState();
+  const { findTaskList, setSingleTaskList } = useTaskListState();
 
   function handleOnCloseModal() {
-    onModalClose();
+    changeTaskListModalVisibility(false);
   }
 
   function handleFormSubmit(e: React.FormEvent) {
     e.preventDefault();
-    onTaskListUpdate(
-      taskList!.listId,
-      formValues.name,
-      +formValues.priority,
-      formValues.color
-    );
+
+    let taskListToUpdate = findTaskList(taskList!.listId);
+
+    if (!taskListToUpdate) return;
+
+    taskListToUpdate = { ...taskListToUpdate };
+
+    taskListToUpdate.name = formValues.name;
+    taskListToUpdate.priority = +formValues.priority;
+    taskListToUpdate.color = formValues.color;
+
+    setSingleTaskList(taskListToUpdate);
+    changeTaskListModalVisibility(false);
   }
 
   function handleInputChange(inputName: string, newValue: string) {
@@ -61,7 +59,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({
     }
   }, [taskList]);
 
-  if (!visibility || !taskList) return null;
+  if (!modalsVisibility.taskListDetailsModal || !taskList) return null;
 
   return (
     <Modal visibility={true} onClose={handleOnCloseModal}>

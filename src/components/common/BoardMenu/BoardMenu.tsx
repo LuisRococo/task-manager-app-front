@@ -5,7 +5,7 @@ import logoImg from "../../../assets/logo.png";
 import { MenuBtn } from "./MenuBtn";
 import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
-import { boardMenuVisibilityState } from "../../../state/recoilStates";
+import { boardMenuVisibilityState } from "../../../appState/boardMenuState";
 import { useRecoilState } from "recoil";
 
 export const BoardMenu = () => {

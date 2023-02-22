@@ -1,33 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "./TaskList.scss";
-import { ITaskList } from "../../../interfaces/taskList";
+import { ITaskListState } from "../../../interfaces/taskList";
 import { EmptyTaskListCard } from "./EmptyTaskListCard";
-import { ITask } from "../../../interfaces/task";
 import { TaskCard } from "../TaskCard.tsx/TaskCard";
-import {
-  taskGroup1,
-  taskGroup2,
-  taskGroupCompleted,
-} from "../../../placeholders/tasksPlaceholders";
 
-interface CardList {
-  taskList: ITaskList;
-  onClick: (taskList: ITaskList) => void;
+interface ITaskList {
+  taskList: ITaskListState;
+  onClick: (taskList: ITaskListState) => void;
 }
 
-export const TaskList: React.FC<CardList> = ({ taskList, onClick }) => {
-  const [tasks, setTasks] = useState<ITask[]>([]);
-
-  useEffect(() => {
-    // Placeholder code
-    if (taskList.priority === 1) {
-      setTasks(taskGroup1);
-    } else if (taskList.priority === 2) {
-      setTasks(taskGroup2);
-    } else if (taskList.priority === 4) {
-      setTasks(taskGroupCompleted);
-    }
-  }, []);
+export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
+  const { tasks, color, name, priority, listId } = taskList;
 
   return (
     <div className="task-list mx-2 col-inside-scroll pb-4 h-100">
@@ -39,12 +22,12 @@ export const TaskList: React.FC<CardList> = ({ taskList, onClick }) => {
         }}
       >
         <div className="w-100 bg-light rounded-top p-3 text-center border">
-          <p className="h6 m-0">{taskList.name}</p>
-          <small className="text-muted">{taskList.priority}° Priority</small>
+          <p className="h6 m-0">{name}</p>
+          <small className="text-muted">{priority}° Priority</small>
         </div>
         <div
           className="task-list-bottom rounded-bottom"
-          style={{ backgroundColor: taskList.color }}
+          style={{ backgroundColor: color }}
         ></div>
       </div>
 

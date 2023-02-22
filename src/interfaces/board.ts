@@ -1,6 +1,12 @@
-export interface IBoard {
+interface IBoardAuthor {
+  idAuthor: number;
+  firstName: string;
+  lastName: string;
+}
+
+interface IBoardState {
   boardId: number;
   title: string;
-  authorId: number;
   visibility: boolean;
+  author: IBoardAuthor;
 }
