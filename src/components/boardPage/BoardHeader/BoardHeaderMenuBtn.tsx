@@ -1,7 +1,7 @@
 import React from "react";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useRecoilState } from "recoil";
-import { boardMenuVisibilityState } from "../../../state/recoilStates";
+import { boardMenuVisibilityState } from "../../../appState/boardMenuState";
 
 export const BoardHeaderMenuBtn = () => {
   const [, setBoardVisibility] = useRecoilState(boardMenuVisibilityState);

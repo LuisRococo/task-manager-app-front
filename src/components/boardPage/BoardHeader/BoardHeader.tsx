@@ -7,19 +7,13 @@ interface IBoardHeader {
   boardTitle: string;
   projectImage: string;
   boardVisibility: boolean;
-  onBoardVisibilityChange: () => void;
 }
 
 const BoardHeader: React.FC<IBoardHeader> = ({
   projectImage,
   boardTitle: projectTitle,
   boardVisibility,
-  onBoardVisibilityChange,
 }) => {
-  function handleVisibilityChange() {
-    onBoardVisibilityChange();
-  }
-
   return (
     <div className="py-5">
       <div className="d-flex justify-content-between align-items-center">
@@ -36,10 +30,7 @@ const BoardHeader: React.FC<IBoardHeader> = ({
         </div>
 
         <div className="d-flex">
-          <BoardVisibilityOption
-            onClick={handleVisibilityChange}
-            visible={boardVisibility}
-          />
+          <BoardVisibilityOption visible={boardVisibility} />
           <BoardHeaderMenuBtn />
         </div>
       </div>

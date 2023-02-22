@@ -1,23 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./BoardPage.scss";
 import BoardHeader from "../components/boardPage/BoardHeader/BoardHeader";
 import { TaskListContainer } from "../components/boardPage/TaskListContainer/TaskListContainer";
-import { IBoard } from "../interfaces/board";
 import { board as boardPlaceholder } from "../placeholders/boardsPlaceholders";
 import { BoardMenu } from "../components/common/BoardMenu/BoardMenu";
+import { useBoardState } from "../hooks/useBoardState";
 
 function BoardPage() {
   const boardId = 1;
-  const [projectImage, setProjectImage] = useState(
-    "https://via.placeholder.com/150"
-  );
-  const [board, setBoard] = useState<IBoard>(boardPlaceholder);
+  const [projectImage] = useState("https://via.placeholder.com/150");
+  const { board, fetchBoard } = useBoardState();
 
-  function handleBoardVisibilityChange() {
-    setBoard((previousValue) => {
-      return { ...previousValue, visibility: !previousValue.visibility };
-    });
-  }
+  useEffect(() => {
+    fetchBoard(boardId);
+  }, []);
 
   if (!board) return <div className="page-cont full-height-cont"></div>;
 
@@ -29,7 +25,6 @@ function BoardPage() {
           boardTitle={board.title}
           projectImage={projectImage}
           boardVisibility={board.visibility}
-          onBoardVisibilityChange={handleBoardVisibilityChange}
         />
         <TaskListContainer boardId={boardId} />
       </div>

@@ -1,8 +1,10 @@
-import { IBoard } from "../interfaces/board";
-
-export const board: IBoard = {
-  authorId: 1,
+export const board: IBoardState = {
   boardId: 1,
   title: "My Task Manager",
   visibility: true,
+  author: {
+    firstName: "Angelica",
+    lastName: "Valenzuela",
+    idAuthor: 1,
+  },
 };
