@@ -1,8 +1,9 @@
 import React from "react";
 import { taskListState } from "../appState/taskListState";
 import { useRecoilState } from "recoil";
-import { ITaskListState } from "../interfaces/taskList";
+import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
 import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlaceholders";
+import { randomInteger } from "../utils/utils";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
@@ -10,6 +11,7 @@ export const useTaskListState = () => {
   async function fetchTaskLists(boardId: number) {
     const newTaskLists: ITaskListState[] = taskListsPlaceholder;
     setTaskLists(newTaskLists);
+    orderTaskListsByPriority();
   }
 
   function setSingleTaskList(taskList: ITaskListState) {
@@ -23,6 +25,14 @@ export const useTaskListState = () => {
     updatedTaskLists[elementIndex] = taskList;
 
     setTaskLists(updatedTaskLists);
+    orderTaskListsByPriority();
+  }
+
+  function deleteTaskList(taskListId: number) {
+    const updatedTaskLists: ITaskListState[] = taskLists.filter((taskList) => {
+      return taskList.listId !== taskListId;
+    });
+    setTaskLists(updatedTaskLists);
   }
 
   function findTaskList(taskListId: number) {
@@ -35,11 +45,34 @@ export const useTaskListState = () => {
     return null;
   }
 
+  function createTaskLists(taskListData: ICreateTaskList) {
+    const newTaskList: ITaskListState = {
+      ...taskListData,
+      listId: randomInteger(1, 1000),
+      tasks: [],
+    };
+
+    const newTaskListsState: ITaskListState[] = [...taskLists, newTaskList];
+    setTaskLists(newTaskListsState);
+    orderTaskListsByPriority();
+  }
+
+  function orderTaskListsByPriority() {
+    setTaskLists((prev) => {
+      const newList = [...prev];
+      return newList.sort((a, b) => {
+        return a.priority - b.priority;
+      });
+    });
+  }
+
   return {
     taskLists,
     fetchTaskLists,
     setTaskLists,
     setSingleTaskList,
     findTaskList,
+    deleteTaskList,
+    createTaskLists,
   };
 };

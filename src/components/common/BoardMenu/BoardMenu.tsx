@@ -7,8 +7,10 @@ import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
 import { boardMenuVisibilityState } from "../../../appState/boardMenuState";
 import { useRecoilState } from "recoil";
+import { useModalState } from "../../../hooks/useModalState";
 
 export const BoardMenu = () => {
+  const { changeCreateTaskListModalVisibility } = useModalState();
   const [boardVisibility, setBoardVisibility] = useRecoilState(
     boardMenuVisibilityState
   );
@@ -39,7 +41,10 @@ export const BoardMenu = () => {
               <MenuBtn
                 Icon={FaTasks}
                 text="Create Task List"
-                onClick={() => {}}
+                onClick={() => {
+                  setBoardVisibility(false);
+                  changeCreateTaskListModalVisibility(true);
+                }}
               />
             </div>
           </div>

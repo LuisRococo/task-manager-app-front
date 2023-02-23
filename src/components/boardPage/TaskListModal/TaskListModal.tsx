@@ -22,9 +22,15 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
     color: "",
   });
   const { changeTaskListModalVisibility, modalsVisibility } = useModalState();
-  const { findTaskList, setSingleTaskList } = useTaskListState();
+  const { findTaskList, setSingleTaskList, deleteTaskList } =
+    useTaskListState();
 
   function handleOnCloseModal() {
+    changeTaskListModalVisibility(false);
+  }
+
+  function handleDeleteBtnClick() {
+    deleteTaskList(taskList!.listId);
     changeTaskListModalVisibility(false);
   }
 
@@ -123,6 +129,13 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
             </div>
 
             <div className="d-flex justify-content-end">
+              <button
+                type="button"
+                className="btn btn-danger me-2"
+                onClick={handleDeleteBtnClick}
+              >
+                Delete
+              </button>
               <button type="submit" className="btn btn-primary">
                 Update
               </button>
