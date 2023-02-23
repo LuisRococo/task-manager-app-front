@@ -1,10 +1,10 @@
-interface IBoardAuthor {
+export interface IBoardAuthor {
   idAuthor: number;
   firstName: string;
   lastName: string;
 }
 
-interface IBoardState {
+export interface IBoardState {
   boardId: number;
   title: string;
   visibility: boolean;

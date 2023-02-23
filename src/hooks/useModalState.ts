@@ -1,6 +1,7 @@
 import React from "react";
 import { useRecoilState } from "recoil";
 import { IModalsState, modalsState } from "../appState/modalsState";
+import { ITask } from "../interfaces/task";
 
 export const useModalState = () => {
   const [modalsVisibility, setModalsVisibility] = useRecoilState(modalsState);
@@ -17,10 +18,32 @@ export const useModalState = () => {
     setModalsVisibility(stateToUpdate);
   }
 
+  function closeTaskDataModal() {
+    const stateToUpdate: IModalsState = JSON.parse(
+      JSON.stringify(modalsVisibility)
+    );
+    stateToUpdate.taskDetailsModal.visibility = false;
+    setModalsVisibility(stateToUpdate);
+  }
+
+  function openTaskDataModal(taskData: ITask) {
+    const stateToUpdate: IModalsState = JSON.parse(
+      JSON.stringify(modalsVisibility)
+    );
+    stateToUpdate.taskDetailsModal = {
+      visibility: true,
+      taskData,
+    };
+
+    setModalsVisibility(stateToUpdate);
+  }
+
   return {
     changeTaskListModalVisibility,
     setModalsVisibility,
     modalsVisibility,
     changeCreateTaskListModalVisibility,
+    closeTaskDataModal,
+    openTaskDataModal,
   };
 };
