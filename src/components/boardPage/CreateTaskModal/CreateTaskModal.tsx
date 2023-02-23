@@ -9,16 +9,27 @@ interface IFormData {
   title: string;
   points: number;
   description: string;
+  idTaskList: number;
 }
 
 export const CreateTaskModal = () => {
   const { changeCreateTaskModalVisibility, modalsVisibility } = useModalState();
-  const { taskLists } = useTaskListState();
+  const { taskLists, createTask } = useTaskListState();
   const [formData, setFormData] = useState<IFormData>({
     description: "",
     points: 0,
     title: "",
+    idTaskList: 0,
   });
+
+  function resetFormData() {
+    setFormData({
+      description: "",
+      points: 0,
+      title: "",
+      idTaskList: 0,
+    });
+  }
 
   function handleModalClose() {
     changeCreateTaskModalVisibility(false);
@@ -30,6 +41,14 @@ export const CreateTaskModal = () => {
 
   function handleCreateSubmition(e: React.FormEvent) {
     e.preventDefault();
+    createTask(
+      +formData.idTaskList,
+      formData.description,
+      +formData.points,
+      formData.title
+    );
+    resetFormData();
+    changeCreateTaskModalVisibility(false);
   }
 
   return (
@@ -67,9 +86,18 @@ export const CreateTaskModal = () => {
                     <div className="col-6">
                       <div className="mb-3">
                         <label className="form-label">Task List</label>
-                        <select className="form-select">
+                        <select
+                          className="form-select"
+                          value={formData.idTaskList}
+                          onChange={(e) => {
+                            handleInputChange("idTaskList", e.target.value);
+                          }}
+                        >
                           {taskLists.map((taskList) => (
-                            <option value={taskList.listId}>
+                            <option
+                              key={taskList.listId}
+                              value={taskList.listId}
+                            >
                               {taskList.name}
                             </option>
                           ))}
