@@ -6,12 +6,20 @@ import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import "./TaskModal.scss";
 import { TaskModalData } from "./TaskModalData";
 import { TaskStatusEnum } from "../../../interfaces/task";
+import { useTaskListState } from "../../../hooks/useTaskListState";
 
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
   const { taskData } = modalsVisibility.taskDetailsModal;
+  const { deleteTask } = useTaskListState();
 
   function handleModalClose() {
+    closeTaskDataModal();
+  }
+
+  function handleDeleteBtnClick() {
+    if (!taskData) return;
+    deleteTask(taskData.taskId);
     closeTaskDataModal();
   }
 
@@ -39,7 +47,9 @@ export const TaskModal = () => {
             <TaskModalData taskData={taskData} />
 
             <div className="d-flex justify-content-end">
-              <button className="btn btn-danger">Delete</button>
+              <button onClick={handleDeleteBtnClick} className="btn btn-danger">
+                Delete
+              </button>
             </div>
           </div>
         </Modal>,

@@ -67,6 +67,35 @@ export const useTaskListState = () => {
     });
   }
 
+  function findTask(idTask: number) {
+    taskLists.forEach((list) => {
+      list.tasks.forEach((task) => {
+        if (task.taskId === idTask) {
+          return task;
+        }
+      });
+    });
+    return null;
+  }
+
+  function deleteTask(idTask: number) {
+    const taskListsEdited: ITaskListState[] = JSON.parse(
+      JSON.stringify(taskLists)
+    );
+
+    for (let i = 0; i < taskListsEdited.length; i++) {
+      const taskList = taskListsEdited[i];
+      const taskToDeleteIndex = taskList.tasks.findIndex(
+        (task) => task.taskId === idTask
+      );
+      if (taskToDeleteIndex !== -1) {
+        taskList.tasks.splice(taskToDeleteIndex, 1);
+      }
+    }
+
+    setTaskLists(taskListsEdited);
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -75,5 +104,7 @@ export const useTaskListState = () => {
     findTaskList,
     deleteTaskList,
     createTaskLists,
+    deleteTask,
+    findTask,
   };
 };
