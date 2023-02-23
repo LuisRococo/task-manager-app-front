@@ -8,6 +8,7 @@ export interface ITaskDetailModal {
 export interface IModalsState {
   taskListDetailsModal: boolean;
   createTaskListModal: boolean;
+  createTaskModal: boolean;
   taskDetailsModal: ITaskDetailModal;
 }
 
@@ -16,6 +17,7 @@ export const modalsState = atom<IModalsState>({
   default: {
     taskListDetailsModal: false,
     createTaskListModal: false,
+    createTaskModal: false,
     taskDetailsModal: { visibility: false, taskData: undefined },
   },
 });
