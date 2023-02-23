@@ -7,3 +7,9 @@ export interface ITaskListState {
   priority: number;
   tasks: ITask[];
 }
+
+export interface ICreateTaskList {
+  name: string;
+  color: string;
+  priority: number;
+}

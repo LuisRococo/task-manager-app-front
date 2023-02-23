@@ -1,8 +1,9 @@
 import React from "react";
 import { taskListState } from "../appState/taskListState";
 import { useRecoilState } from "recoil";
-import { ITaskListState } from "../interfaces/taskList";
+import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
 import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlaceholders";
+import { randomInteger } from "../utils/utils";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
@@ -42,6 +43,17 @@ export const useTaskListState = () => {
     return null;
   }
 
+  function createTaskLists(taskListData: ICreateTaskList) {
+    const newTaskList: ITaskListState = {
+      ...taskListData,
+      listId: randomInteger(1, 1000),
+      tasks: [],
+    };
+
+    const newTaskListsState: ITaskListState[] = [...taskLists, newTaskList];
+    setTaskLists(newTaskListsState);
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -49,5 +61,6 @@ export const useTaskListState = () => {
     setSingleTaskList,
     findTaskList,
     deleteTaskList,
+    createTaskLists,
   };
 };
