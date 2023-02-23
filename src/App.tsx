@@ -2,6 +2,7 @@ import { useState } from "react";
 import BoardPage from "./pages/BoardPage";
 import { Footer } from "./components/common/Footer/Footer";
 import { Navigation } from "./components/common/Navigation/Navigation";
+import { TaskModal } from "./components/boardPage/TaskModal/TaskModal";
 
 function App() {
   const [count, setCount] = useState(0);

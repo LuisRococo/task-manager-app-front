@@ -17,10 +17,29 @@ export const useModalState = () => {
     setModalsVisibility(stateToUpdate);
   }
 
+  function closeTaskDataModal() {
+    const stateToUpdate: IModalsState = JSON.parse(
+      JSON.stringify(modalsVisibility)
+    );
+    stateToUpdate.taskDetailsModal.visibility = false;
+    setModalsVisibility(stateToUpdate);
+  }
+
+  function openTaskDataModal() {
+    const stateToUpdate: IModalsState = JSON.parse(
+      JSON.stringify(modalsVisibility)
+    );
+    stateToUpdate.taskDetailsModal.visibility = true;
+
+    setModalsVisibility(stateToUpdate);
+  }
+
   return {
     changeTaskListModalVisibility,
     setModalsVisibility,
     modalsVisibility,
     changeCreateTaskListModalVisibility,
+    closeTaskDataModal,
+    openTaskDataModal,
   };
 };

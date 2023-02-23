@@ -2,6 +2,7 @@ import React from "react";
 import "./TaskCard.scss";
 import { ITask, TaskStatusEnum } from "../../../interfaces/task";
 import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
+import { useModalState } from "../../../hooks/useModalState";
 
 interface TaskCard extends ITask {}
 
@@ -12,8 +13,17 @@ export const TaskCard: React.FC<ITask> = ({
   taskId,
   title,
 }) => {
+  const { openTaskDataModal } = useModalState();
+
+  function handleTaskClick() {
+    openTaskDataModal();
+  }
+
   return (
-    <div className="rounded border px-2 py-3 mb-3 bg-light">
+    <div
+      className="task-card rounded border px-2 py-3 mb-3 bg-light"
+      onClick={handleTaskClick}
+    >
       <small className="text-muted fst-italic">Task</small>
       <p>{title}</p>
       <hr />
