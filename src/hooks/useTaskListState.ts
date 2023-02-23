@@ -11,6 +11,7 @@ export const useTaskListState = () => {
   async function fetchTaskLists(boardId: number) {
     const newTaskLists: ITaskListState[] = taskListsPlaceholder;
     setTaskLists(newTaskLists);
+    orderTaskListsByPriority();
   }
 
   function setSingleTaskList(taskList: ITaskListState) {
@@ -24,6 +25,7 @@ export const useTaskListState = () => {
     updatedTaskLists[elementIndex] = taskList;
 
     setTaskLists(updatedTaskLists);
+    orderTaskListsByPriority();
   }
 
   function deleteTaskList(taskListId: number) {
@@ -52,6 +54,16 @@ export const useTaskListState = () => {
 
     const newTaskListsState: ITaskListState[] = [...taskLists, newTaskList];
     setTaskLists(newTaskListsState);
+    orderTaskListsByPriority();
+  }
+
+  function orderTaskListsByPriority() {
+    setTaskLists((prev) => {
+      const newList = [...prev];
+      return newList.sort((a, b) => {
+        return a.priority - b.priority;
+      });
+    });
   }
 
   return {
