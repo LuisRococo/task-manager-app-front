@@ -1,4 +1,3 @@
-import React from "react";
 import { taskListState } from "../appState/taskListState";
 import { useRecoilState } from "recoil";
 import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
@@ -8,11 +7,13 @@ import { randomInteger } from "../utils/utils";
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
 
+  /* eslint-disable */
   async function fetchTaskLists(boardId: number) {
     const newTaskLists: ITaskListState[] = taskListsPlaceholder;
     setTaskLists(newTaskLists);
     orderTaskListsByPriority();
   }
+  /* eslint-enable */
 
   function setSingleTaskList(taskList: ITaskListState) {
     const elementIndex = taskLists.findIndex(

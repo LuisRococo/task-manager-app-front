@@ -1,4 +1,3 @@
-import React from "react";
 import { useRecoilState } from "recoil";
 import { IModalsState, modalsState } from "../appState/modalsState";
 import { ITask } from "../interfaces/task";
