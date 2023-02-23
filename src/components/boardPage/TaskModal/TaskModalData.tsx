@@ -1,32 +1,36 @@
 import React from "react";
 import { AiFillFilePdf } from "react-icons/ai";
+import { ITask } from "../../../interfaces/task";
 
-export const TaskModalData = () => {
+interface TaskModelData {
+  taskData: ITask;
+}
+
+export const TaskModalData: React.FC<TaskModelData> = ({ taskData }) => {
+  const { taskList, creatorName, description, points } = taskData;
+
   return (
     <div>
       <p className="mb-2">Data:</p>
       <p className="m-0">
         <strong>Author: </strong>
-        Francisco Peralta
+        {creatorName}
       </p>
 
       <p className="m-0">
         <strong>Points: </strong>
-        12
+        {points}
       </p>
 
       <p className="m-0">
         <strong>Task List: </strong>
-        Completed
+        {taskList.title}
       </p>
 
       <p className="mt-3 m-0">
         <strong className="">Description: </strong>
       </p>
-      <p className="m-0">
-        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Autem,
-        voluptatibus?
-      </p>
+      <p className="m-0">{description}</p>
 
       <p className="mt-3 m-0">
         <strong className="">Attachments: </strong>

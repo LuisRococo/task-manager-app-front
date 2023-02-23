@@ -1,8 +1,9 @@
 import { atom } from "recoil";
+import { ITask } from "../interfaces/task";
 
 export interface ITaskDetailModal {
   visibility: boolean;
-  taskData: undefined;
+  taskData: undefined | ITask;
 }
 export interface IModalsState {
   taskListDetailsModal: boolean;

@@ -9,4 +9,10 @@ export interface ITask {
   creatorName: string;
   status: TaskStatusEnum;
   assignedQuantity: number;
+  points: number;
+  description: string;
+  taskList: {
+    listId: number;
+    title: string;
+  };
 }

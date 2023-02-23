@@ -12,11 +12,23 @@ export const TaskCard: React.FC<ITask> = ({
   status,
   taskId,
   title,
+  description,
+  points,
+  taskList,
 }) => {
   const { openTaskDataModal } = useModalState();
 
   function handleTaskClick() {
-    openTaskDataModal();
+    openTaskDataModal({
+      assignedQuantity,
+      creatorName,
+      description,
+      points,
+      status,
+      taskId,
+      taskList,
+      title,
+    });
   }
 
   return (

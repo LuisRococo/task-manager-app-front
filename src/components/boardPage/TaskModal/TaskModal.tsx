@@ -5,13 +5,17 @@ import { useModalState } from "../../../hooks/useModalState";
 import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import "./TaskModal.scss";
 import { TaskModalData } from "./TaskModalData";
+import { TaskStatusEnum } from "../../../interfaces/task";
 
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
+  const { taskData } = modalsVisibility.taskDetailsModal;
 
   function handleModalClose() {
     closeTaskDataModal();
   }
+
+  if (!taskData) return;
 
   return (
     <>
@@ -22,15 +26,17 @@ export const TaskModal = () => {
         >
           <div style={{ minWidth: 700 }}>
             <div className="d-flex mb-2">
-              <TaskCardStatus completed={true} />
+              <TaskCardStatus
+                completed={taskData?.status === TaskStatusEnum.complete}
+              />
             </div>
-            <h3>Finish project requirements</h3>
+            <h3>{taskData?.title}</h3>
             <p className="text-muted">
               <small>Task</small>
             </p>
             <hr />
 
-            <TaskModalData />
+            <TaskModalData taskData={taskData} />
 
             <div className="d-flex justify-content-end">
               <button className="btn btn-danger">Delete</button>
