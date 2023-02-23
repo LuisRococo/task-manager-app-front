@@ -15,7 +15,7 @@ export const TaskModal = () => {
     closeTaskDataModal();
   }
 
-  if (!taskData) return;
+  if (!taskData) return null;
 
   return (
     <>
