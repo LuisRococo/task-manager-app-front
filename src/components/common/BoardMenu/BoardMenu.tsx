@@ -10,7 +10,10 @@ import { useRecoilState } from "recoil";
 import { useModalState } from "../../../hooks/useModalState";
 
 export const BoardMenu = () => {
-  const { changeCreateTaskListModalVisibility } = useModalState();
+  const {
+    changeCreateTaskListModalVisibility,
+    changeCreateTaskModalVisibility,
+  } = useModalState();
   const [boardVisibility, setBoardVisibility] = useRecoilState(
     boardMenuVisibilityState
   );
@@ -37,7 +40,14 @@ export const BoardMenu = () => {
             </div>
 
             <div className="mt-5 board-menu-btn-cont">
-              <MenuBtn Icon={BiTask} text="Create Task" onClick={() => {}} />
+              <MenuBtn
+                Icon={BiTask}
+                text="Create Task"
+                onClick={() => {
+                  setBoardVisibility(false);
+                  changeCreateTaskModalVisibility(true);
+                }}
+              />
               <MenuBtn
                 Icon={FaTasks}
                 text="Create Task List"

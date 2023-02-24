@@ -7,6 +7,7 @@ import { useBoardState } from "../hooks/useBoardState";
 import { useTaskListState } from "../hooks/useTaskListState";
 import { CreateTaskListModal } from "../components/boardPage/CreateTaskListModal/CreateTaskListModal";
 import { TaskModal } from "../components/boardPage/TaskModal/TaskModal";
+import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateTaskModal";
 
 function BoardPage() {
   const boardId = 1;
@@ -24,6 +25,7 @@ function BoardPage() {
   return (
     <>
       <CreateTaskListModal />
+      <CreateTaskModal />
       <TaskModal />
       <BoardMenu />
       <div className="page-cont full-height-cont">

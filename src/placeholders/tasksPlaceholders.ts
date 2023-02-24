@@ -3,7 +3,7 @@ import { randomInteger } from "../utils/utils";
 
 export const taskGroup1: ITask[] = [
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Jesus Rolando",
     status: TaskStatusEnum.incomplete,
@@ -17,7 +17,7 @@ export const taskGroup1: ITask[] = [
     },
   },
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Luis Jesus",
     status: TaskStatusEnum.incomplete,
@@ -31,7 +31,7 @@ export const taskGroup1: ITask[] = [
     },
   },
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Ricardo Armando",
     status: TaskStatusEnum.incomplete,
@@ -48,7 +48,7 @@ export const taskGroup1: ITask[] = [
 
 export const taskGroup2: ITask[] = [
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Jesus Rolando",
     status: TaskStatusEnum.incomplete,
@@ -64,7 +64,7 @@ export const taskGroup2: ITask[] = [
 
 export const taskGroupCompleted: ITask[] = [
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Jesus Rolando",
     status: TaskStatusEnum.complete,
@@ -77,7 +77,7 @@ export const taskGroupCompleted: ITask[] = [
     },
   },
   {
-    taskId: randomInteger(1, 100),
+    taskId: randomInteger(1, 1000),
     assignedQuantity: randomInteger(1, 8),
     creatorName: "Luis Jesus",
     status: TaskStatusEnum.complete,

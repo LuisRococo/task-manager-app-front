@@ -3,6 +3,7 @@ import { useRecoilState } from "recoil";
 import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
 import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlaceholders";
 import { randomInteger } from "../utils/utils";
+import { ITask, TaskStatusEnum } from "../interfaces/task";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
@@ -67,6 +68,72 @@ export const useTaskListState = () => {
     });
   }
 
+  function findTask(idTask: number) {
+    taskLists.forEach((list) => {
+      list.tasks.forEach((task) => {
+        if (task.taskId === idTask) {
+          return task;
+        }
+      });
+    });
+    return null;
+  }
+
+  function deleteTask(idTask: number) {
+    const taskListsEdited: ITaskListState[] = JSON.parse(
+      JSON.stringify(taskLists)
+    );
+
+    for (let i = 0; i < taskListsEdited.length; i++) {
+      const taskList = taskListsEdited[i];
+      const taskToDeleteIndex = taskList.tasks.findIndex(
+        (task) => task.taskId === idTask
+      );
+      if (taskToDeleteIndex !== -1) {
+        taskList.tasks.splice(taskToDeleteIndex, 1);
+      }
+    }
+
+    setTaskLists(taskListsEdited);
+  }
+
+  function createTask(
+    idTaskList: number,
+    description: string,
+    points: number,
+    title: string
+  ) {
+    const taskListObjective = findTaskList(idTaskList);
+    if (!taskListObjective) return;
+
+    const newTask: ITask = {
+      creatorName: "Root Root",
+      assignedQuantity: 0,
+      description,
+      points,
+      status: TaskStatusEnum.incomplete,
+      title,
+      taskId: randomInteger(0, 1000),
+      taskList: {
+        listId: taskListObjective.listId,
+        title: taskListObjective.name,
+      },
+    };
+
+    const taskListsEdited: ITaskListState[] = JSON.parse(
+      JSON.stringify(taskLists)
+    );
+
+    for (let index = 0; index < taskListsEdited.length; index++) {
+      const taskListToEdit = taskListsEdited[index];
+      if (taskListToEdit.listId === idTaskList) {
+        taskListToEdit.tasks.push(newTask);
+      }
+    }
+
+    setTaskLists(taskListsEdited);
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -75,5 +142,8 @@ export const useTaskListState = () => {
     findTaskList,
     deleteTaskList,
     createTaskLists,
+    deleteTask,
+    findTask,
+    createTask,
   };
 };
