@@ -17,7 +17,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
     cursor: "pointer",
     backgroundColor: "#f8f9fa",
   };
-  const [{ canDrop }, drop] = useDrop(() => ({
+  const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: DragAndDropItems.TASK,
     drop: () => {
       return { listId };
@@ -27,10 +27,11 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
       canDrop: monitor.canDrop(),
     }),
   }));
-  const itemDraggedOver = canDrop;
 
-  if (itemDraggedOver) {
+  if (canDrop && !isOver) {
     headerStyle = { ...headerStyle, backgroundColor: "#f6dfa8" };
+  } else if (isOver) {
+    headerStyle = { ...headerStyle, backgroundColor: "#c3f6b8" };
   }
 
   return (
