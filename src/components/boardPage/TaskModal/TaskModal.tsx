@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import { Modal } from "../../common/Modal/Modal";
 import { useModalState } from "../../../hooks/useModalState";
@@ -11,7 +11,8 @@ import { useTaskListState } from "../../../hooks/useTaskListState";
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
   const { taskData } = modalsVisibility.taskDetailsModal;
-  const { deleteTask } = useTaskListState();
+  const { deleteTask, moveTaskToOtherList, taskLists } = useTaskListState();
+  const [selectedTaskList, setSelectedTaskList] = useState(0);
 
   function handleModalClose() {
     closeTaskDataModal();
@@ -22,6 +23,24 @@ export const TaskModal = () => {
     deleteTask(taskData.taskId);
     closeTaskDataModal();
   }
+
+  function handleTaskListChange(e: React.ChangeEvent<HTMLSelectElement>) {
+    setSelectedTaskList(+e.target.value);
+  }
+
+  function handleFormSubmition(e: React.FormEvent) {
+    e.preventDefault();
+    if (taskData) {
+      moveTaskToOtherList(taskData.taskId, +selectedTaskList);
+      closeTaskDataModal();
+    }
+  }
+
+  useEffect(() => {
+    if (taskData) {
+      setSelectedTaskList(taskData.taskList.listId);
+    }
+  }, [taskData]);
 
   if (!taskData) return null;
 
@@ -46,11 +65,43 @@ export const TaskModal = () => {
 
             <TaskModalData taskData={taskData} />
 
-            <div className="d-flex justify-content-end">
-              <button onClick={handleDeleteBtnClick} className="btn btn-danger">
-                Delete
-              </button>
-            </div>
+            <hr />
+            <h4>Change Task List</h4>
+            <form onSubmit={handleFormSubmition}>
+              <div className="container">
+                <div className="row">
+                  <div className="col-6">
+                    <div className="mb-3">
+                      <label className="form-label">Task List</label>
+                      <select
+                        className="form-select"
+                        value={selectedTaskList}
+                        onChange={handleTaskListChange}
+                      >
+                        {taskLists.map((taskList) => (
+                          <option key={taskList.listId} value={taskList.listId}>
+                            {taskList.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-end">
+                <button
+                  type="button"
+                  onClick={handleDeleteBtnClick}
+                  className="btn btn-danger me-1"
+                >
+                  Delete
+                </button>
+                <button type="submit" className="btn btn-primary">
+                  Update
+                </button>
+              </div>
+            </form>
           </div>
         </Modal>,
         document.getElementById("task-option-modal") as any

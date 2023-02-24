@@ -5,14 +5,10 @@ import { TaskList as TaskList } from "../TaskList/TaskList";
 import { TaskListModal } from "../TaskListModal/TaskListModal";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 import { ITaskListState } from "../../../interfaces/taskList";
-import { useRecoilState } from "recoil";
-import { modalsState } from "../../../appState/modalsState";
 import { useModalState } from "../../../hooks/useModalState";
 
-interface TaskListContainer {}
-
-export const TaskListContainer: React.FC<TaskListContainer> = () => {
-  const { taskLists, setSingleTaskList, findTaskList } = useTaskListState();
+export const TaskListContainer: React.FC = () => {
+  const { taskLists } = useTaskListState();
   const { changeTaskListModalVisibility } = useModalState();
   const [modalTaskList, setModalTaskList] = useState<
     ITaskListState | undefined

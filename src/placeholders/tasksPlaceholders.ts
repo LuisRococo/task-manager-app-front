@@ -12,8 +12,8 @@ export const taskGroup1: ITask[] = [
       "Adipisicing pariatur qui nulla est do dolor aliquip culpa irure duis sint.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 0,
+      title: "Pending",
     },
   },
   {
@@ -26,8 +26,8 @@ export const taskGroup1: ITask[] = [
       "Aliquip sunt eu deserunt duis consectetur ea laborum deserunt aliquip et culpa.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 0,
+      title: "Pending",
     },
   },
   {
@@ -40,8 +40,8 @@ export const taskGroup1: ITask[] = [
       "Fugiat nostrud proident non nulla occaecat proident duis consequat.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 0,
+      title: "Pending",
     },
   },
 ];
@@ -56,8 +56,8 @@ export const taskGroup2: ITask[] = [
     description: "Lorem deserunt ipsum labore non est mollit.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 2,
+      title: "In Review",
     },
   },
 ];
@@ -72,8 +72,8 @@ export const taskGroupCompleted: ITask[] = [
     description: "Ad officia ad pariatur dolor enim cillum eu enim.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 3,
+      title: "Finished",
     },
   },
   {
@@ -85,8 +85,8 @@ export const taskGroupCompleted: ITask[] = [
     description: "Duis non ut sit non et.",
     points: randomInteger(1, 20),
     taskList: {
-      listId: randomInteger(1, 20),
-      title: "Available",
+      listId: 3,
+      title: "Finished",
     },
   },
 ];
