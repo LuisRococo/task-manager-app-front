@@ -40,7 +40,7 @@ export const TaskModal = () => {
     if (taskData) {
       setSelectedTaskList(taskData.taskList.listId);
     }
-  }, []);
+  }, [taskData]);
 
   if (!taskData) return null;
 
