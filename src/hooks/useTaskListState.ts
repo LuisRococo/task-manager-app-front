@@ -170,6 +170,30 @@ export const useTaskListState = () => {
     setTaskLists(taskListsEdited);
   }
 
+  function exchangeListPosition(listId1: number, listId2: number) {
+    const taskListsEdited: ITaskListState[] = JSON.parse(
+      JSON.stringify(taskLists)
+    );
+
+    const list1 = findTaskList(listId1);
+    const list2 = findTaskList(listId2);
+
+    if (!list1 || !list2) return;
+
+    for (let index = 0; index < taskListsEdited.length; index++) {
+      const taskList = taskListsEdited[index];
+      if (taskList.listId === listId1) {
+        taskList.priority = list2.priority;
+      }
+      if (taskList.listId === listId2) {
+        taskList.priority = list1.priority;
+      }
+    }
+
+    setTaskLists(taskListsEdited);
+    orderTaskListsByPriority();
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -182,5 +206,6 @@ export const useTaskListState = () => {
     findTask,
     createTask,
     moveTaskToOtherList,
+    exchangeListPosition,
   };
 };
