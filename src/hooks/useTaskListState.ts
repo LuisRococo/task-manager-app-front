@@ -68,15 +68,16 @@ export const useTaskListState = () => {
     });
   }
 
-  function findTask(idTask: number) {
+  function findTask(idTask: number): ITask | null {
+    let foundTask: ITask | null = null;
     taskLists.forEach((list) => {
       list.tasks.forEach((task) => {
         if (task.taskId === idTask) {
-          return task;
+          foundTask = task;
         }
       });
     });
-    return null;
+    return foundTask;
   }
 
   function deleteTask(idTask: number) {
@@ -134,6 +135,41 @@ export const useTaskListState = () => {
     setTaskLists(taskListsEdited);
   }
 
+  function moveTaskToOtherList(taskId: number, targetListId: number) {
+    const taskListsEdited: ITaskListState[] = JSON.parse(
+      JSON.stringify(taskLists)
+    );
+
+    const targetTaskList = findTaskList(targetListId);
+    if (!targetTaskList) return;
+
+    for (let index = 0; index < taskListsEdited.length; index++) {
+      const taskList = taskListsEdited[index];
+      taskList.tasks = taskList.tasks.filter((task) => {
+        return task.taskId !== taskId;
+      });
+    }
+
+    const taskToEdit: ITask | null = JSON.parse(
+      JSON.stringify(findTask(taskId))
+    );
+
+    if (!taskToEdit) return;
+    taskToEdit.taskList = {
+      listId: targetTaskList.listId,
+      title: targetTaskList.name,
+    };
+
+    for (let index = 0; index < taskListsEdited.length; index++) {
+      const taskListToEdit = taskListsEdited[index];
+      if (taskListToEdit.listId === targetListId) {
+        taskListToEdit.tasks.push(taskToEdit);
+      }
+    }
+
+    setTaskLists(taskListsEdited);
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -145,5 +181,6 @@ export const useTaskListState = () => {
     deleteTask,
     findTask,
     createTask,
+    moveTaskToOtherList,
   };
 };
