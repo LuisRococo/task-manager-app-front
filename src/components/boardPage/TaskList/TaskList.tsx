@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import "./TaskList.scss";
 import { ITaskListState } from "../../../interfaces/taskList";
 import { EmptyTaskListCard } from "./EmptyTaskListCard";
 import { TaskCard } from "../TaskCard.tsx/TaskCard";
+import { useDrop } from "react-dnd";
+import { DragAndDropItems } from "../../../utils/dragAndDropTypes";
 
 interface ITaskList {
   taskList: ITaskListState;
@@ -11,17 +13,38 @@ interface ITaskList {
 
 export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
   const { tasks, color, name, priority, listId } = taskList;
+  let headerStyle: any = {
+    cursor: "pointer",
+    backgroundColor: "#f8f9fa",
+  };
+  const [{ canDrop }, drop] = useDrop(() => ({
+    accept: DragAndDropItems.TASK,
+    drop: () => {
+      return { listId };
+    },
+    collect: (monitor) => ({
+      isOver: monitor.isOver(),
+      canDrop: monitor.canDrop(),
+    }),
+  }));
+  const itemDraggedOver = canDrop;
+
+  if (itemDraggedOver) {
+    headerStyle = { ...headerStyle, backgroundColor: "#f6dfa8" };
+  }
 
   return (
-    <div className="task-list mx-2 col-inside-scroll pb-4 h-100">
+    <div ref={drop} className="task-list mx-2 col-inside-scroll pb-4 h-100">
       <div
         className="w-100 mb-5"
-        style={{ cursor: "pointer" }}
         onClick={() => {
           onClick(taskList);
         }}
       >
-        <div className="w-100 bg-light rounded-top p-3 text-center border">
+        <div
+          className="w-100 rounded-top p-3 text-center border"
+          style={headerStyle}
+        >
           <p className="h6 m-0">{name}</p>
           <small className="text-muted">{priority}° Priority</small>
         </div>

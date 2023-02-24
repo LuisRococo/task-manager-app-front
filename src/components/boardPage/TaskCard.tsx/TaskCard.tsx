@@ -3,8 +3,9 @@ import "./TaskCard.scss";
 import { ITask, TaskStatusEnum } from "../../../interfaces/task";
 import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import { useModalState } from "../../../hooks/useModalState";
-
-interface TaskCard extends ITask {}
+import { useDrag } from "react-dnd";
+import { DragAndDropItems } from "../../../utils/dragAndDropTypes";
+import { useTaskListState } from "../../../hooks/useTaskListState";
 
 export const TaskCard: React.FC<ITask> = ({
   assignedQuantity,
@@ -17,6 +18,23 @@ export const TaskCard: React.FC<ITask> = ({
   taskList,
 }) => {
   const { openTaskDataModal } = useModalState();
+  const { moveTaskToOtherList } = useTaskListState();
+  const [{ opacity }, dragRef] = useDrag(
+    () => ({
+      type: DragAndDropItems.TASK,
+      item: { taskId },
+      collect: (monitor) => ({
+        opacity: monitor.isDragging() ? 0.5 : 1,
+      }),
+      end: (item, monitor) => {
+        const dropResult = monitor.getDropResult() as any;
+        if (item && dropResult) {
+          moveTaskToOtherList(taskId, dropResult.listId);
+        }
+      },
+    }),
+    []
+  );
 
   function handleTaskClick() {
     openTaskDataModal({
@@ -35,6 +53,8 @@ export const TaskCard: React.FC<ITask> = ({
     <div
       className="task-card rounded border px-2 py-3 mb-3 bg-light"
       onClick={handleTaskClick}
+      ref={dragRef}
+      style={{ opacity }}
     >
       <small className="text-muted fst-italic">Task</small>
       <p>{title}</p>
