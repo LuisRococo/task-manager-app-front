@@ -29,11 +29,11 @@ export const TaskCard: React.FC<ITask> = ({
       end: (item, monitor) => {
         const dropResult = monitor.getDropResult() as any;
         if (item && dropResult) {
-          moveTaskToOtherList(taskId, dropResult.listId);
+          moveTaskToOtherList(item.taskId, dropResult.listId);
         }
       },
     }),
-    []
+    [taskId, taskList]
   );
 
   function handleTaskClick() {
