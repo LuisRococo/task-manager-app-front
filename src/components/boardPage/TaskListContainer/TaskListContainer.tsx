@@ -26,18 +26,16 @@ export const TaskListContainer: React.FC = () => {
         document.getElementById("task-list-option-modal") as any
       )}
 
-      <div className="overflow-auto">
-        <div className="row-fluid row-fluid-scroll d-flex">
-          {taskLists.map((taskList) => {
-            return (
-              <TaskList
-                key={taskList.listId}
-                taskList={taskList}
-                onClick={handleTaskListClick}
-              />
-            );
-          })}
-        </div>
+      <div className="row-fluid row-fluid-scroll d-flex">
+        {taskLists.map((taskList) => {
+          return (
+            <TaskList
+              key={taskList.listId}
+              taskList={taskList}
+              onClick={handleTaskListClick}
+            />
+          );
+        })}
       </div>
     </>
   );
