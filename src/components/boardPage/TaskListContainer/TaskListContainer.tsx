@@ -20,7 +20,7 @@ export const TaskListContainer: React.FC = () => {
   }
 
   return (
-    <>
+    <div className="task-lists-container">
       {ReactDOM.createPortal(
         <TaskListModal taskList={modalTaskList} />,
         document.getElementById("task-list-option-modal") as any
@@ -37,6 +37,6 @@ export const TaskListContainer: React.FC = () => {
           );
         })}
       </div>
-    </>
+    </div>
   );
 };
