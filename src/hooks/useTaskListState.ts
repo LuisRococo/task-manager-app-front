@@ -16,6 +16,20 @@ export const useTaskListState = () => {
   }
   /* eslint-enable */
 
+  function orderTasks() {
+    setTaskLists((prev) => {
+      let editedLists: ITaskListState[] = JSON.parse(JSON.stringify(prev));
+      editedLists = editedLists.map((list) => {
+        list.tasks.sort((a, b) => {
+          return a.order - b.order;
+        });
+        return list;
+      });
+
+      return editedLists;
+    });
+  }
+
   function setSingleTaskList(taskList: ITaskListState) {
     const elementIndex = taskLists.findIndex(
       (item) => item.listId === taskList.listId
@@ -109,6 +123,7 @@ export const useTaskListState = () => {
 
     const newTask: ITask = {
       creatorName: "Root Root",
+      order: taskListObjective.tasks.length + 1,
       assignedQuantity: 0,
       description,
       points,
@@ -194,6 +209,38 @@ export const useTaskListState = () => {
     orderTaskListsByPriority();
   }
 
+  function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
+    const movedTask: ITask = JSON.parse(JSON.stringify(findTask(idMovedTask)));
+    const targetTask: ITask = JSON.parse(
+      JSON.stringify(findTask(idTargetTask))
+    );
+
+    if (!movedTask || !targetTask) return;
+    if (movedTask.taskList.listId !== targetTask.taskList.listId) return;
+
+    const targetTaskOrder = targetTask.order;
+    targetTask.order = movedTask.order;
+    movedTask.order = targetTaskOrder;
+
+    const taskListEdited: ITaskListState = JSON.parse(
+      JSON.stringify(findTaskList(targetTask.taskList.listId))
+    );
+
+    for (let index = 0; index < taskListEdited.tasks.length; index++) {
+      const task = taskListEdited.tasks[index];
+
+      if (task.taskId === targetTask.taskId) {
+        taskListEdited.tasks.splice(index, 1, targetTask);
+      }
+      if (task.taskId === movedTask.taskId) {
+        taskListEdited.tasks.splice(index, 1, movedTask);
+      }
+    }
+
+    setSingleTaskList(taskListEdited);
+    orderTasks();
+  }
+
   return {
     taskLists,
     fetchTaskLists,
@@ -207,5 +254,6 @@ export const useTaskListState = () => {
     createTask,
     moveTaskToOtherList,
     exchangeListPosition,
+    changeTaskOrder,
   };
 };

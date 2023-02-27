@@ -11,6 +11,7 @@ export interface ITask {
   assignedQuantity: number;
   points: number;
   description: string;
+  order: number;
   taskList: {
     listId: number;
     title: string;
