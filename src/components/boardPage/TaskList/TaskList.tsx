@@ -21,7 +21,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
   const [{ canDrop, isOver }, drop] = useDrop(() => ({
     accept: [DragAndDropItems.TASK, DragAndDropItems.LIST],
     drop: () => {
-      return { listId };
+      return { type: DragAndDropItems.LIST, listId };
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
@@ -38,7 +38,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
   return (
     <div>
       <TaskDraggableIcon listId={listId} />
-      <div ref={drop} className="task-list mx-2 col-inside-scroll pb-4 h-100">
+      <div className="task-list mx-2 col-inside-scroll pb-4 h-100">
         <div
           className="w-100 mb-5"
           onClick={() => {
@@ -46,6 +46,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
           }}
         >
           <div
+            ref={drop}
             className="w-100 rounded-top p-3 text-center border"
             style={headerStyle}
           >
