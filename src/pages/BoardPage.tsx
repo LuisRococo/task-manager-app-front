@@ -32,7 +32,7 @@ function BoardPage() {
         <BoardHeader
           boardTitle={board.title}
           projectImage={projectImage}
-          boardVisibility={board.visibility}
+          boardVisibility={board.isPublic}
         />
         <TaskListContainer />
       </div>

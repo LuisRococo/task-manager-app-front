@@ -1,5 +1,5 @@
 export interface IBoardAuthor {
-  idAuthor: number;
+  id: number;
   firstName: string;
   lastName: string;
 }
@@ -7,6 +7,6 @@ export interface IBoardAuthor {
 export interface IBoardState {
   boardId: number;
   title: string;
-  visibility: boolean;
+  isPublic: boolean;
   author: IBoardAuthor;
 }
