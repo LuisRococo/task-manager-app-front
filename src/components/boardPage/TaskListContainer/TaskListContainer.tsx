@@ -30,7 +30,7 @@ export const TaskListContainer: React.FC = () => {
         {taskLists.map((taskList) => {
           return (
             <TaskList
-              key={taskList.listId}
+              key={taskList.id}
               taskList={taskList}
               onClick={handleTaskListClick}
             />

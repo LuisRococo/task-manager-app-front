@@ -1,19 +1,14 @@
-export enum TaskStatusEnum {
-  complete,
-  incomplete,
-}
-
 export interface ITask {
-  taskId: number;
+  id: number;
   title: string;
   creatorName: string;
-  status: TaskStatusEnum;
+  completed: boolean;
   assignedQuantity: number;
   points: number;
   description: string;
   order: number;
   taskList: {
-    listId: number;
-    title: string;
+    id: number;
+    name: string;
   };
 }

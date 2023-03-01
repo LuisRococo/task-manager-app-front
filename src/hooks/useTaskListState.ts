@@ -3,15 +3,48 @@ import { useRecoilState } from "recoil";
 import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
 import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlaceholders";
 import { randomInteger } from "../utils/utils";
-import { ITask, TaskStatusEnum } from "../interfaces/task";
+import { ITask } from "../interfaces/task";
+import { client } from "../components/wrappers/ApolloConfig";
+import { gql } from "@apollo/client";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
 
   /* eslint-disable */
   async function fetchTaskLists(boardId: number) {
-    const newTaskLists: ITaskListState[] = taskListsPlaceholder;
-    setTaskLists(newTaskLists);
+    try {
+      const queryResult = await client.query({
+        query: gql`
+          query {
+            boardTaskLists(id: ${boardId}) {
+              id
+              name
+              priority
+              color
+              tasks {
+                id
+                title
+                creatorName
+                completed
+                assignedQuantity
+                points
+                description
+                taskList {
+                  id
+                  name
+                }
+              }
+            }
+          }
+        `,
+      });
+
+      setTaskLists(queryResult.data.boardTaskLists);
+    } catch (error) {
+      console.log(error);
+
+      setTaskLists(taskListsPlaceholder);
+    }
     orderTaskListsByPriority();
   }
   /* eslint-enable */
@@ -31,9 +64,7 @@ export const useTaskListState = () => {
   }
 
   function setSingleTaskList(taskList: ITaskListState) {
-    const elementIndex = taskLists.findIndex(
-      (item) => item.listId === taskList.listId
-    );
+    const elementIndex = taskLists.findIndex((item) => item.id === taskList.id);
 
     if (elementIndex === -1) return;
 
@@ -46,7 +77,7 @@ export const useTaskListState = () => {
 
   function deleteTaskList(taskListId: number) {
     const updatedTaskLists: ITaskListState[] = taskLists.filter((taskList) => {
-      return taskList.listId !== taskListId;
+      return taskList.id !== taskListId;
     });
     setTaskLists(updatedTaskLists);
   }
@@ -54,7 +85,7 @@ export const useTaskListState = () => {
   function findTaskList(taskListId: number) {
     for (let index = 0; index < taskLists.length; index++) {
       const taskList = taskLists[index];
-      if (taskList.listId === taskListId) {
+      if (taskList.id === taskListId) {
         return taskList;
       }
     }
@@ -64,7 +95,7 @@ export const useTaskListState = () => {
   function createTaskLists(taskListData: ICreateTaskList) {
     const newTaskList: ITaskListState = {
       ...taskListData,
-      listId: randomInteger(1, 1000),
+      id: randomInteger(1, 1000),
       tasks: [],
     };
 
@@ -86,7 +117,7 @@ export const useTaskListState = () => {
     let foundTask: ITask | null = null;
     taskLists.forEach((list) => {
       list.tasks.forEach((task) => {
-        if (task.taskId === idTask) {
+        if (task.id === idTask) {
           foundTask = task;
         }
       });
@@ -102,7 +133,7 @@ export const useTaskListState = () => {
     for (let i = 0; i < taskListsEdited.length; i++) {
       const taskList = taskListsEdited[i];
       const taskToDeleteIndex = taskList.tasks.findIndex(
-        (task) => task.taskId === idTask
+        (task) => task.id === idTask
       );
       if (taskToDeleteIndex !== -1) {
         taskList.tasks.splice(taskToDeleteIndex, 1);
@@ -127,12 +158,12 @@ export const useTaskListState = () => {
       assignedQuantity: 0,
       description,
       points,
-      status: TaskStatusEnum.incomplete,
+      completed: false,
       title,
-      taskId: randomInteger(0, 1000),
+      id: randomInteger(0, 1000),
       taskList: {
-        listId: taskListObjective.listId,
-        title: taskListObjective.name,
+        id: taskListObjective.id,
+        name: taskListObjective.name,
       },
     };
 
@@ -142,7 +173,7 @@ export const useTaskListState = () => {
 
     for (let index = 0; index < taskListsEdited.length; index++) {
       const taskListToEdit = taskListsEdited[index];
-      if (taskListToEdit.listId === idTaskList) {
+      if (taskListToEdit.id === idTaskList) {
         taskListToEdit.tasks.push(newTask);
       }
     }
@@ -161,7 +192,7 @@ export const useTaskListState = () => {
     for (let index = 0; index < taskListsEdited.length; index++) {
       const taskList = taskListsEdited[index];
       taskList.tasks = taskList.tasks.filter((task) => {
-        return task.taskId !== taskId;
+        return task.id !== taskId;
       });
     }
 
@@ -171,13 +202,13 @@ export const useTaskListState = () => {
 
     if (!taskToEdit) return;
     taskToEdit.taskList = {
-      listId: targetTaskList.listId,
-      title: targetTaskList.name,
+      id: targetTaskList.id,
+      name: targetTaskList.name,
     };
 
     for (let index = 0; index < taskListsEdited.length; index++) {
       const taskListToEdit = taskListsEdited[index];
-      if (taskListToEdit.listId === targetListId) {
+      if (taskListToEdit.id === targetListId) {
         taskListToEdit.tasks.push(taskToEdit);
       }
     }
@@ -197,10 +228,10 @@ export const useTaskListState = () => {
 
     for (let index = 0; index < taskListsEdited.length; index++) {
       const taskList = taskListsEdited[index];
-      if (taskList.listId === listId1) {
+      if (taskList.id === listId1) {
         taskList.priority = list2.priority;
       }
-      if (taskList.listId === listId2) {
+      if (taskList.id === listId2) {
         taskList.priority = list1.priority;
       }
     }
@@ -216,23 +247,23 @@ export const useTaskListState = () => {
     );
 
     if (!movedTask || !targetTask) return;
-    if (movedTask.taskList.listId !== targetTask.taskList.listId) return;
+    if (movedTask.taskList.id !== targetTask.taskList.id) return;
 
     const targetTaskOrder = targetTask.order;
     targetTask.order = movedTask.order;
     movedTask.order = targetTaskOrder;
 
     const taskListEdited: ITaskListState = JSON.parse(
-      JSON.stringify(findTaskList(targetTask.taskList.listId))
+      JSON.stringify(findTaskList(targetTask.taskList.id))
     );
 
     for (let index = 0; index < taskListEdited.tasks.length; index++) {
       const task = taskListEdited.tasks[index];
 
-      if (task.taskId === targetTask.taskId) {
+      if (task.id === targetTask.id) {
         taskListEdited.tasks.splice(index, 1, targetTask);
       }
-      if (task.taskId === movedTask.taskId) {
+      if (task.id === movedTask.id) {
         taskListEdited.tasks.splice(index, 1, movedTask);
       }
     }

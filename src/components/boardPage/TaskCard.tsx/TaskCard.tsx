@@ -1,6 +1,6 @@
 import React from "react";
 import "./TaskCard.scss";
-import { ITask, TaskStatusEnum } from "../../../interfaces/task";
+import { ITask } from "../../../interfaces/task";
 import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import { useModalState } from "../../../hooks/useModalState";
 import { useDrag, useDrop } from "react-dnd";
@@ -10,8 +10,8 @@ import { useTaskListState } from "../../../hooks/useTaskListState";
 export const TaskCard: React.FC<ITask> = ({
   assignedQuantity,
   creatorName,
-  status,
-  taskId,
+  completed: status,
+  id: taskId,
   title,
   description,
   points,
@@ -60,8 +60,8 @@ export const TaskCard: React.FC<ITask> = ({
       creatorName,
       description,
       points,
-      status,
-      taskId,
+      completed: status,
+      id: taskId,
       taskList,
       title,
       order,
@@ -86,7 +86,7 @@ export const TaskCard: React.FC<ITask> = ({
 
         <div className="d-flex justify-content-between">
           <p className="p-0 m-0">{assignedQuantity} people</p>
-          <TaskCardStatus completed={status === TaskStatusEnum.complete} />
+          <TaskCardStatus completed={status === true} />
         </div>
       </div>
     </div>

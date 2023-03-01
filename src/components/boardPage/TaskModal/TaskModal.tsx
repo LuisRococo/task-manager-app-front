@@ -5,7 +5,6 @@ import { useModalState } from "../../../hooks/useModalState";
 import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import "./TaskModal.scss";
 import { TaskModalData } from "./TaskModalData";
-import { TaskStatusEnum } from "../../../interfaces/task";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 
 export const TaskModal = () => {
@@ -20,7 +19,7 @@ export const TaskModal = () => {
 
   function handleDeleteBtnClick() {
     if (!taskData) return;
-    deleteTask(taskData.taskId);
+    deleteTask(taskData.id);
     closeTaskDataModal();
   }
 
@@ -31,14 +30,14 @@ export const TaskModal = () => {
   function handleFormSubmition(e: React.FormEvent) {
     e.preventDefault();
     if (taskData) {
-      moveTaskToOtherList(taskData.taskId, +selectedTaskList);
+      moveTaskToOtherList(taskData.id, +selectedTaskList);
       closeTaskDataModal();
     }
   }
 
   useEffect(() => {
     if (taskData) {
-      setSelectedTaskList(taskData.taskList.listId);
+      setSelectedTaskList(taskData.taskList.id);
     }
   }, [taskData]);
 
@@ -53,9 +52,7 @@ export const TaskModal = () => {
         >
           <div style={{ minWidth: 700 }}>
             <div className="d-flex mb-2">
-              <TaskCardStatus
-                completed={taskData?.status === TaskStatusEnum.complete}
-              />
+              <TaskCardStatus completed={taskData?.completed === true} />
             </div>
             <h3>{taskData?.title}</h3>
             <p className="text-muted">
@@ -79,7 +76,7 @@ export const TaskModal = () => {
                         onChange={handleTaskListChange}
                       >
                         {taskLists.map((taskList) => (
-                          <option key={taskList.listId} value={taskList.listId}>
+                          <option key={taskList.id} value={taskList.id}>
                             {taskList.name}
                           </option>
                         ))}

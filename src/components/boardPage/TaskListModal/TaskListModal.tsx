@@ -31,7 +31,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
 
   function handleDeleteBtnClick() {
     if (taskList) {
-      deleteTaskList(taskList.listId);
+      deleteTaskList(taskList.id);
       changeTaskListModalVisibility(false);
     }
   }
@@ -40,7 +40,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
     e.preventDefault();
     if (!taskList) return;
 
-    let taskListToUpdate = findTaskList(taskList.listId);
+    let taskListToUpdate = findTaskList(taskList.id);
 
     if (!taskListToUpdate) return;
 
