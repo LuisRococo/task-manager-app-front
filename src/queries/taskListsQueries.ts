@@ -65,3 +65,19 @@ export const deleteTaskListQuery = gql`
     }
   }
 `;
+
+export const patchTaskListQuery = gql`
+  mutation PatchTaskList(
+    $id: Int!
+    $name: String
+    $color: String
+    $priority: Int
+  ) {
+    patchTaskList(id: $id, name: $name, color: $color, priority: $priority) {
+      id
+      name
+      color
+      priority
+    }
+  }
+`;

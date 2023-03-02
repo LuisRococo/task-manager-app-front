@@ -41,21 +41,25 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
   }
 
   function handleFormSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!taskList) return;
+    try {
+      e.preventDefault();
+      if (!taskList) return;
 
-    let taskListToUpdate = findTaskList(taskList.id);
+      let taskListToUpdate = findTaskList(taskList.id);
 
-    if (!taskListToUpdate) return;
+      if (!taskListToUpdate) return;
 
-    taskListToUpdate = { ...taskListToUpdate };
+      taskListToUpdate = { ...taskListToUpdate };
 
-    taskListToUpdate.name = formValues.name;
-    taskListToUpdate.priority = +formValues.priority;
-    taskListToUpdate.color = formValues.color;
+      taskListToUpdate.name = formValues.name;
+      taskListToUpdate.priority = +formValues.priority;
+      taskListToUpdate.color = formValues.color;
 
-    setSingleTaskList(taskListToUpdate);
-    changeTaskListModalVisibility(false);
+      setSingleTaskList(taskListToUpdate);
+      changeTaskListModalVisibility(false);
+    } catch (error) {
+      alert("There was an error, try again later");
+    }
   }
 
   function handleInputChange(inputName: string, newValue: string) {
