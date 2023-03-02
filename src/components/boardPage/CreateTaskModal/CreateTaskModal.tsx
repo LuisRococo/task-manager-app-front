@@ -39,9 +39,8 @@ export const CreateTaskModal = () => {
     setFormData({ ...formData, [inputName]: value });
   }
 
-  function handleCreateSubmition(e: React.FormEvent) {
+  function handleCreateSubmition() {
     try {
-      e.preventDefault();
       createTask(
         +formData.idTaskList,
         formData.description,
@@ -53,6 +52,7 @@ export const CreateTaskModal = () => {
     } catch (error) {
       alert("There was an error, try later");
     }
+    return false;
   }
 
   useEffect(() => {
