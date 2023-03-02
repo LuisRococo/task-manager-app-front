@@ -39,23 +39,27 @@ export const CreateTaskModal = () => {
     setFormData({ ...formData, [inputName]: value });
   }
 
-  function handleCreateSubmition(e: React.FormEvent) {
-    e.preventDefault();
-    createTask(
-      +formData.idTaskList,
-      formData.description,
-      +formData.points,
-      formData.title
-    );
-    resetFormData();
-    changeCreateTaskModalVisibility(false);
+  async function handleCreateSubmition(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      await createTask(
+        +formData.idTaskList,
+        formData.description,
+        +formData.points,
+        formData.title
+      );
+      resetFormData();
+      changeCreateTaskModalVisibility(false);
+    } catch (error) {
+      alert("There was an error, try later");
+    }
   }
 
   useEffect(() => {
     if (taskLists.length > 0) {
       setFormData({ ...formData, idTaskList: taskLists[0].id });
     }
-  }, []);
+  }, [taskLists]);
 
   return (
     <>

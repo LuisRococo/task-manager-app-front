@@ -1,7 +1,6 @@
 import { taskListState } from "../appState/taskListState";
 import { useRecoilState } from "recoil";
 import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
-import { randomInteger } from "../utils/utils";
 import { ITask } from "../interfaces/task";
 import { client } from "../components/wrappers/ApolloConfig";
 import { useBoardState } from "./useBoardState";
@@ -11,6 +10,7 @@ import {
   getTaskListsByBoardQuery,
   patchTaskListQuery,
 } from "../queries/taskListsQueries";
+import { createTaskQuery } from "../queries/taskQueries";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
@@ -141,7 +141,7 @@ export const useTaskListState = () => {
     setTaskLists(taskListsEdited);
   }
 
-  function createTask(
+  async function createTask(
     idTaskList: number,
     description: string,
     points: number,
@@ -150,19 +150,19 @@ export const useTaskListState = () => {
     const taskListObjective = findTaskList(idTaskList);
     if (!taskListObjective) return;
 
-    const newTask: ITask = {
-      creatorName: "Root Root",
-      order: taskListObjective.tasks.length + 1,
-      assignedQuantity: 0,
-      description,
-      points,
-      completed: false,
-      title,
-      id: randomInteger(0, 1000),
-      taskList: {
-        id: taskListObjective.id,
-        name: taskListObjective.name,
+    const querieResult = await client.mutate({
+      mutation: createTaskQuery,
+      variables: {
+        title,
+        taskListId: idTaskList,
+        points,
+        description,
       },
+    });
+
+    const newTask: ITask = {
+      ...querieResult.data.createTask,
+      order: taskListObjective.tasks.length + 1,
     };
 
     const taskListsEdited: ITaskListState[] = JSON.parse(
