@@ -5,8 +5,11 @@ import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlac
 import { randomInteger } from "../utils/utils";
 import { ITask } from "../interfaces/task";
 import { client } from "../components/wrappers/ApolloConfig";
-import { gql } from "@apollo/client";
 import { useBoardState } from "./useBoardState";
+import {
+  createTaskListQuerie,
+  getTaskListsByBoardQuery,
+} from "../queries/taskListsQueries";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
@@ -16,35 +19,12 @@ export const useTaskListState = () => {
   async function fetchTaskLists(boardId: number) {
     try {
       const queryResult = await client.query({
-        query: gql`
-          query {
-            boardTaskLists(id: ${boardId}) {
-              id
-              name
-              priority
-              color
-              tasks {
-                id
-                title
-                creatorName
-                completed
-                assignedQuantity
-                points
-                description
-                taskList {
-                  id
-                  name
-                }
-              }
-            }
-          }
-        `,
+        query: getTaskListsByBoardQuery,
+        variables: { id: boardId },
       });
 
       setTaskLists(queryResult.data.boardTaskLists);
     } catch (error) {
-      console.log(error);
-
       setTaskLists(taskListsPlaceholder);
     }
     orderTaskListsByPriority();
@@ -96,39 +76,7 @@ export const useTaskListState = () => {
 
   async function createTaskLists(taskListData: ICreateTaskList) {
     const mutationResult = await client.mutate({
-      mutation: gql`
-        mutation CreateTaskList(
-          $name: String!
-          $color: String!
-          $boardId: Int!
-          $priority: Int!
-        ) {
-          createTaskList(
-            name: $name
-            color: $color
-            boardId: $boardId
-            priority: $priority
-          ) {
-            id
-            name
-            priority
-            color
-            tasks {
-              id
-              title
-              creatorName
-              completed
-              assignedQuantity
-              points
-              description
-              taskList {
-                id
-                name
-              }
-            }
-          }
-        }
-      `,
+      mutation: createTaskListQuerie,
       variables: {
         name: taskListData.name,
         color: taskListData.color,
