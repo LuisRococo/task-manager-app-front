@@ -40,22 +40,26 @@ export const CreateTaskModal = () => {
   }
 
   function handleCreateSubmition(e: React.FormEvent) {
-    e.preventDefault();
-    createTask(
-      +formData.idTaskList,
-      formData.description,
-      +formData.points,
-      formData.title
-    );
-    resetFormData();
-    changeCreateTaskModalVisibility(false);
+    try {
+      e.preventDefault();
+      createTask(
+        +formData.idTaskList,
+        formData.description,
+        +formData.points,
+        formData.title
+      );
+      resetFormData();
+      changeCreateTaskModalVisibility(false);
+    } catch (error) {
+      alert("There was an error, try later");
+    }
   }
 
   useEffect(() => {
     if (taskLists.length > 0) {
       setFormData({ ...formData, idTaskList: taskLists[0].id });
     }
-  }, []);
+  }, [taskLists]);
 
   return (
     <>
