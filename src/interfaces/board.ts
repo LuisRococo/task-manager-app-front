@@ -5,7 +5,7 @@ export interface IBoardAuthor {
 }
 
 export interface IBoardState {
-  boardId: number;
+  id: number;
   title: string;
   isPublic: boolean;
   author: IBoardAuthor;

@@ -6,9 +6,11 @@ import { randomInteger } from "../utils/utils";
 import { ITask } from "../interfaces/task";
 import { client } from "../components/wrappers/ApolloConfig";
 import { gql } from "@apollo/client";
+import { useBoardState } from "./useBoardState";
 
 export const useTaskListState = () => {
   const [taskLists, setTaskLists] = useRecoilState(taskListState);
+  const { board } = useBoardState();
 
   /* eslint-disable */
   async function fetchTaskLists(boardId: number) {
@@ -92,14 +94,53 @@ export const useTaskListState = () => {
     return null;
   }
 
-  function createTaskLists(taskListData: ICreateTaskList) {
-    const newTaskList: ITaskListState = {
-      ...taskListData,
-      id: randomInteger(1, 1000),
-      tasks: [],
-    };
+  async function createTaskLists(taskListData: ICreateTaskList) {
+    const mutationResult = await client.mutate({
+      mutation: gql`
+        mutation CreateTaskList(
+          $name: String!
+          $color: String!
+          $boardId: Int!
+          $priority: Int!
+        ) {
+          createTaskList(
+            name: $name
+            color: $color
+            boardId: $boardId
+            priority: $priority
+          ) {
+            id
+            name
+            priority
+            color
+            tasks {
+              id
+              title
+              creatorName
+              completed
+              assignedQuantity
+              points
+              description
+              taskList {
+                id
+                name
+              }
+            }
+          }
+        }
+      `,
+      variables: {
+        name: taskListData.name,
+        color: taskListData.color,
+        boardId: board?.id,
+        priority: taskListData.priority,
+      },
+    });
 
-    const newTaskListsState: ITaskListState[] = [...taskLists, newTaskList];
+    const newTaskListsState: ITaskListState[] = [
+      ...taskLists,
+      mutationResult.data.createTaskList,
+    ];
     setTaskLists(newTaskListsState);
     orderTaskListsByPriority();
   }
