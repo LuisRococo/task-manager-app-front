@@ -18,10 +18,14 @@ export const TaskDraggableIcon: React.FC<TaskDraggableIcon> = ({ listId }) => {
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
       }),
-      end: (item, monitor) => {
-        const dropResult = monitor.getDropResult() as any;
-        if (item && dropResult) {
-          exchangeListPosition(item.listId, dropResult.listId);
+      end: async (item, monitor) => {
+        try {
+          const dropResult = monitor.getDropResult() as any;
+          if (item && dropResult) {
+            await exchangeListPosition(item.listId, dropResult.listId);
+          }
+        } catch (error) {
+          alert("There was an error, try again later");
         }
       },
     }),
