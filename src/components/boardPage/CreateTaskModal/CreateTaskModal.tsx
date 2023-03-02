@@ -39,9 +39,10 @@ export const CreateTaskModal = () => {
     setFormData({ ...formData, [inputName]: value });
   }
 
-  function handleCreateSubmition() {
+  async function handleCreateSubmition(e: React.FormEvent) {
     try {
-      createTask(
+      e.preventDefault();
+      await createTask(
         +formData.idTaskList,
         formData.description,
         +formData.points,
@@ -52,7 +53,6 @@ export const CreateTaskModal = () => {
     } catch (error) {
       alert("There was an error, try later");
     }
-    return false;
   }
 
   useEffect(() => {
