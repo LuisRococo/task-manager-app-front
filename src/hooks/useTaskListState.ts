@@ -214,7 +214,7 @@ export const useTaskListState = () => {
     setTaskLists(taskListsEdited);
   }
 
-  function exchangeListPosition(listId1: number, listId2: number) {
+  async function exchangeListPosition(listId1: number, listId2: number) {
     const taskListsEdited: ITaskListState[] = JSON.parse(
       JSON.stringify(taskLists)
     );
@@ -223,6 +223,25 @@ export const useTaskListState = () => {
     const list2 = findTaskList(listId2);
 
     if (!list1 || !list2) return;
+
+    await client.mutate({
+      mutation: patchTaskListQuery,
+      variables: {
+        id: list1.id,
+        priority: list2.priority,
+        name: null,
+        color: null,
+      },
+    });
+    await client.mutate({
+      mutation: patchTaskListQuery,
+      variables: {
+        id: list2.id,
+        priority: list1.priority,
+        name: null,
+        color: null,
+      },
+    });
 
     for (let index = 0; index < taskListsEdited.length; index++) {
       const taskList = taskListsEdited[index];
