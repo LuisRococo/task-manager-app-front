@@ -1,7 +1,6 @@
 import { taskListState } from "../appState/taskListState";
 import { useRecoilState } from "recoil";
 import { ICreateTaskList, ITaskListState } from "../interfaces/taskList";
-import { taskLists as taskListsPlaceholder } from "../placeholders/taskListsPlaceholders";
 import { randomInteger } from "../utils/utils";
 import { ITask } from "../interfaces/task";
 import { client } from "../components/wrappers/ApolloConfig";

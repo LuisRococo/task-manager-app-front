@@ -11,7 +11,8 @@ import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateT
 import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
 
 function BoardPage() {
-  const boardId = 1;
+  const searchParams = new URLSearchParams(document.location.search);
+  const boardId = searchParams.get("boardId");
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
@@ -19,8 +20,12 @@ function BoardPage() {
 
   async function initData() {
     try {
-      await fetchBoard(boardId);
-      await fetchTaskLists(boardId);
+      if (!boardId) {
+        setError(true);
+        return;
+      }
+      await fetchBoard(+boardId);
+      await fetchTaskLists(+boardId);
     } catch (error) {
       setError(true);
     }
