@@ -18,16 +18,12 @@ export const useTaskListState = () => {
 
   /* eslint-disable */
   async function fetchTaskLists(boardId: number) {
-    try {
-      const queryResult = await client.query({
-        query: getTaskListsByBoardQuery,
-        variables: { id: boardId },
-      });
+    const queryResult = await client.query({
+      query: getTaskListsByBoardQuery,
+      variables: { id: boardId },
+    });
 
-      setTaskLists(queryResult.data.boardTaskLists);
-    } catch (error) {
-      setTaskLists(taskListsPlaceholder);
-    }
+    setTaskLists(queryResult.data.boardTaskLists);
     orderTaskListsByPriority();
   }
   /* eslint-enable */

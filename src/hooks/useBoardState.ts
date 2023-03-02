@@ -9,14 +9,12 @@ export const useBoardState = () => {
 
   /* eslint-disable */
   async function fetchBoard(boardId: number) {
-    try {
-      const queryResult = await client.query({
-        query: findBoardQuerie,
-        variables: { id: boardId },
-      });
+    const queryResult = await client.query({
+      query: findBoardQuerie,
+      variables: { id: boardId },
+    });
 
-      setBoard(queryResult.data.board);
-    } catch (error) {}
+    setBoard(queryResult.data.board);
   }
   /* eslint-enable */
 

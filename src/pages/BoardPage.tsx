@@ -8,19 +8,31 @@ import { useTaskListState } from "../hooks/useTaskListState";
 import { CreateTaskListModal } from "../components/boardPage/CreateTaskListModal/CreateTaskListModal";
 import { TaskModal } from "../components/boardPage/TaskModal/TaskModal";
 import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateTaskModal";
+import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
 
 function BoardPage() {
   const boardId = 1;
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
+  const [error, setError] = useState<boolean>(false);
+
+  async function initData() {
+    try {
+      await fetchBoard(boardId);
+      await fetchTaskLists(boardId);
+    } catch (error) {
+      setError(true);
+    }
+  }
 
   useEffect(() => {
-    fetchBoard(boardId);
-    fetchTaskLists(boardId);
+    initData();
   }, []);
 
-  if (!board || !taskLists)
+  if (error) {
+    return <GeneralErrorMessage />;
+  } else if (!board || !taskLists)
     return <div className="page-cont full-height-cont"></div>;
 
   return (
