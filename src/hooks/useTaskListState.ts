@@ -9,6 +9,7 @@ import {
   createTaskListQuerie,
   deleteTaskListQuery,
   getTaskListsByBoardQuery,
+  patchTaskListQuery,
 } from "../queries/taskListsQueries";
 
 export const useTaskListState = () => {
@@ -41,10 +42,17 @@ export const useTaskListState = () => {
     });
   }
 
-  function setSingleTaskList(taskList: ITaskListState) {
+  async function setSingleTaskList(taskList: ITaskListState) {
     const elementIndex = taskLists.findIndex((item) => item.id === taskList.id);
 
     if (elementIndex === -1) return;
+
+    await client.mutate({
+      mutation: patchTaskListQuery,
+      variables: {
+        ...taskList,
+      },
+    });
 
     const updatedTaskLists = [...taskLists];
     updatedTaskLists[elementIndex] = taskList;
