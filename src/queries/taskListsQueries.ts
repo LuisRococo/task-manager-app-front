@@ -57,3 +57,11 @@ export const getTaskListsByBoardQuery = gql`
     }
   }
 `;
+
+export const deleteTaskListQuery = gql`
+  mutation DeleteTaskList($id: Int!) {
+    deleteTaskList(id: $id) {
+      id
+    }
+  }
+`;

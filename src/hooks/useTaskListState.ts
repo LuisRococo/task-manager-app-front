@@ -8,6 +8,7 @@ import { client } from "../components/wrappers/ApolloConfig";
 import { useBoardState } from "./useBoardState";
 import {
   createTaskListQuerie,
+  deleteTaskListQuery,
   getTaskListsByBoardQuery,
 } from "../queries/taskListsQueries";
 
@@ -57,7 +58,12 @@ export const useTaskListState = () => {
     orderTaskListsByPriority();
   }
 
-  function deleteTaskList(taskListId: number) {
+  async function deleteTaskList(taskListId: number) {
+    await client.mutate({
+      mutation: deleteTaskListQuery,
+      variables: { id: taskListId },
+    });
+
     const updatedTaskLists: ITaskListState[] = taskLists.filter((taskList) => {
       return taskList.id !== taskListId;
     });

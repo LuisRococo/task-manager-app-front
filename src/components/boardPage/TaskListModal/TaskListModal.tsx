@@ -30,9 +30,13 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
   }
 
   function handleDeleteBtnClick() {
-    if (taskList) {
-      deleteTaskList(taskList.id);
-      changeTaskListModalVisibility(false);
+    try {
+      if (taskList) {
+        deleteTaskList(taskList.id);
+        changeTaskListModalVisibility(false);
+      }
+    } catch (error) {
+      alert("There was an error, try later");
     }
   }
 
