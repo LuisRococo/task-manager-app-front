@@ -13,7 +13,7 @@ interface ITaskList {
 }
 
 export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
-  const { tasks, color, name, priority, listId } = taskList;
+  const { tasks, color, name, priority, id: listId } = taskList;
   let headerStyle: any = {
     cursor: "pointer",
     backgroundColor: "#f8f9fa",
@@ -63,7 +63,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
           {tasks.length == 0 && <EmptyTaskListCard />}
           {tasks.length != 0 &&
             tasks.map((task) => {
-              return <TaskCard key={task.taskId} {...task} />;
+              return <TaskCard key={task.id} {...task} />;
             })}
         </div>
       </div>

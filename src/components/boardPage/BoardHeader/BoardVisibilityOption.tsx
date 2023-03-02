@@ -19,7 +19,7 @@ export const BoardVisibilityOption: React.FC<BoardVisibilityOption> = ({
   );
 
   function handleClick() {
-    changeBoardVisibility(!board?.visibility);
+    changeBoardVisibility(!board?.isPublic);
   }
 
   return (

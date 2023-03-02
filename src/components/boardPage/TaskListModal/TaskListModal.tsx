@@ -30,9 +30,13 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
   }
 
   function handleDeleteBtnClick() {
-    if (taskList) {
-      deleteTaskList(taskList.listId);
-      changeTaskListModalVisibility(false);
+    try {
+      if (taskList) {
+        deleteTaskList(taskList.id);
+        changeTaskListModalVisibility(false);
+      }
+    } catch (error) {
+      alert("There was an error, try later");
     }
   }
 
@@ -40,7 +44,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
     e.preventDefault();
     if (!taskList) return;
 
-    let taskListToUpdate = findTaskList(taskList.listId);
+    let taskListToUpdate = findTaskList(taskList.id);
 
     if (!taskListToUpdate) return;
 

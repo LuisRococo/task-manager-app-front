@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import "./CreateTaskModa.scss";
 import { Modal } from "../../common/Modal/Modal";
@@ -51,6 +51,12 @@ export const CreateTaskModal = () => {
     changeCreateTaskModalVisibility(false);
   }
 
+  useEffect(() => {
+    if (taskLists.length > 0) {
+      setFormData({ ...formData, idTaskList: taskLists[0].id });
+    }
+  }, []);
+
   return (
     <>
       {ReactDOM.createPortal(
@@ -94,10 +100,7 @@ export const CreateTaskModal = () => {
                           }}
                         >
                           {taskLists.map((taskList) => (
-                            <option
-                              key={taskList.listId}
-                              value={taskList.listId}
-                            >
+                            <option key={taskList.id} value={taskList.id}>
                               {taskList.name}
                             </option>
                           ))}

@@ -1,7 +1,7 @@
 import { ITask } from "./task";
 
 export interface ITaskListState {
-  listId: number;
+  id: number;
   name: string;
   color: string;
   priority: number;

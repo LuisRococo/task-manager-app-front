@@ -27,9 +27,13 @@ export const CreateTaskListModal = () => {
   }
 
   function handleCreateSubmition(e: React.FormEvent) {
-    e.preventDefault();
-    createTaskLists({ ...formValues, priority: +formValues.priority });
-    changeCreateTaskListModalVisibility(false);
+    try {
+      e.preventDefault();
+      createTaskLists({ ...formValues, priority: +formValues.priority });
+      changeCreateTaskListModalVisibility(false);
+    } catch (error) {
+      alert("There was an error, try later");
+    }
   }
 
   function handleInputChange(inputName: string, newValue: string) {
