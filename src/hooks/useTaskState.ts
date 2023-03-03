@@ -3,7 +3,11 @@ import { useRecoilState } from "recoil";
 import { ITaskListState } from "../interfaces/taskList";
 import { ITask } from "../interfaces/task";
 import { useTaskListState } from "./useTaskListState";
-import { createTaskQuery, patchTaskQuery } from "../queries/taskQueries";
+import {
+  createTaskQuery,
+  deleteTaskQuery,
+  patchTaskQuery,
+} from "../queries/taskQueries";
 import { client } from "../components/wrappers/ApolloConfig";
 
 export const useTaskState = () => {
@@ -36,7 +40,13 @@ export const useTaskState = () => {
     return foundTask;
   }
 
-  function deleteTask(idTask: number) {
+  async function deleteTask(idTask: number) {
+    await client.mutate({
+      mutation: deleteTaskQuery,
+      variables: {
+        id: idTask,
+      },
+    });
     const taskListsEdited: ITaskListState[] = JSON.parse(
       JSON.stringify(taskLists)
     );

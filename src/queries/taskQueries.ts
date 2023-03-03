@@ -63,3 +63,11 @@ export const patchTaskQuery = gql`
     }
   }
 `;
+
+export const deleteTaskQuery = gql`
+  mutation DeleteTask($id: Int!) {
+    deleteTask(id: $id) {
+      id
+    }
+  }
+`;

@@ -33,12 +33,15 @@ export const TaskModal = () => {
     closeTaskDataModal();
   }
 
-  //TODO add delete btn
-  function handleDeleteBtnClick() {
-    if (!taskData) return;
-    deleteTask(taskData.id);
-    resetFormData();
-    closeTaskDataModal();
+  async function handleDeleteBtnClick() {
+    try {
+      if (!taskData) return;
+      deleteTask(taskData.id);
+      resetFormData();
+      closeTaskDataModal();
+    } catch (error) {
+      alert("There was an error, try later");
+    }
   }
 
   function handleTaskListChange(e: React.ChangeEvent<HTMLSelectElement>) {
