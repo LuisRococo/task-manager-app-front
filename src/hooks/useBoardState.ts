@@ -2,12 +2,11 @@ import { useRecoilState } from "recoil";
 import { boardState } from "../appState/boardState";
 import { IBoardState } from "../interfaces/board";
 import { client } from "../components/wrappers/ApolloConfig";
-import { findBoardQuerie } from "../queries/boardQueries";
+import { findBoardQuerie, patchBoardQuerie } from "../queries/boardQueries";
 
 export const useBoardState = () => {
   const [board, setBoard] = useRecoilState(boardState);
 
-  /* eslint-disable */
   async function fetchBoard(boardId: number) {
     const queryResult = await client.query({
       query: findBoardQuerie,
@@ -16,7 +15,6 @@ export const useBoardState = () => {
 
     setBoard(queryResult.data.board);
   }
-  /* eslint-enable */
 
   async function changeBoardVisibility(newValue: boolean) {
     const updatedBoard: IBoardState = {
@@ -26,5 +24,20 @@ export const useBoardState = () => {
     setBoard(updatedBoard);
   }
 
-  return { board, fetchBoard, setBoard, changeBoardVisibility };
+  async function updateBoard(data: {
+    id: number;
+    title?: string;
+    isPublic?: boolean;
+  }) {
+    const { id, isPublic, title } = data;
+    const queryResult = await client.mutate({
+      mutation: patchBoardQuerie,
+      variables: { id, isPublic, title },
+    });
+
+    const updatedBoard = queryResult.data.patchBoard;
+    setBoard(updatedBoard);
+  }
+
+  return { board, fetchBoard, setBoard, changeBoardVisibility, updateBoard };
 };
