@@ -4,6 +4,7 @@ import "./CreateTaskModa.scss";
 import { Modal } from "../../common/Modal/Modal";
 import { useModalState } from "../../../hooks/useModalState";
 import { useTaskListState } from "../../../hooks/useTaskListState";
+import { useTaskState } from "../../../hooks/useTaskState";
 
 interface IFormData {
   title: string;
@@ -14,7 +15,8 @@ interface IFormData {
 
 export const CreateTaskModal = () => {
   const { changeCreateTaskModalVisibility, modalsVisibility } = useModalState();
-  const { taskLists, createTask } = useTaskListState();
+  const { taskLists } = useTaskListState();
+  const { createTask } = useTaskState();
   const [formData, setFormData] = useState<IFormData>({
     description: "",
     points: 0,

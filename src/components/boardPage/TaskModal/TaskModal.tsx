@@ -7,6 +7,7 @@ import "./TaskModal.scss";
 import { TaskModalData } from "./TaskModalData";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 import { ChangeTaskListForm } from "./ChangeTaskListForm";
+import { useTaskState } from "../../../hooks/useTaskState";
 
 interface IFormData {
   title: string;
@@ -17,7 +18,8 @@ interface IFormData {
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
   const { taskData } = modalsVisibility.taskDetailsModal;
-  const { deleteTask, moveTaskToOtherList, taskLists } = useTaskListState();
+  const { taskLists } = useTaskListState();
+  const { deleteTask, moveTaskToOtherList } = useTaskState();
   const [selectedTaskList, setSelectedTaskList] = useState(0);
   const [editFormData, setEditFormData] = useState<IFormData>({
     description: "",
