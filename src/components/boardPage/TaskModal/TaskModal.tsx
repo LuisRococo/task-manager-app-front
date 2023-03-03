@@ -6,6 +6,7 @@ import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import "./TaskModal.scss";
 import { TaskModalData } from "./TaskModalData";
 import { useTaskListState } from "../../../hooks/useTaskListState";
+import { ChangeTaskListForm } from "./ChangeTaskListForm";
 
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
@@ -17,6 +18,7 @@ export const TaskModal = () => {
     closeTaskDataModal();
   }
 
+  //TODO add delete btn
   function handleDeleteBtnClick() {
     if (!taskData) return;
     deleteTask(taskData.id);
@@ -63,42 +65,12 @@ export const TaskModal = () => {
             <TaskModalData taskData={taskData} />
 
             <hr />
-            <h4>Change Task List</h4>
-            <form onSubmit={handleFormSubmition}>
-              <div className="container">
-                <div className="row">
-                  <div className="col-6">
-                    <div className="mb-3">
-                      <label className="form-label">Task List</label>
-                      <select
-                        className="form-select"
-                        value={selectedTaskList}
-                        onChange={handleTaskListChange}
-                      >
-                        {taskLists.map((taskList) => (
-                          <option key={taskList.id} value={taskList.id}>
-                            {taskList.name}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="d-flex justify-content-end">
-                <button
-                  type="button"
-                  onClick={handleDeleteBtnClick}
-                  className="btn btn-danger me-1"
-                >
-                  Delete
-                </button>
-                <button type="submit" className="btn btn-primary">
-                  Update
-                </button>
-              </div>
-            </form>
+            <ChangeTaskListForm
+              onFormSubmition={handleFormSubmition}
+              onTaskListChange={handleTaskListChange}
+              selectedTaskList={selectedTaskList}
+              taskLists={taskLists}
+            />
           </div>
         </Modal>,
         document.getElementById("task-option-modal") as any
