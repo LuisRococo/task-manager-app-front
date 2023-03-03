@@ -48,7 +48,7 @@ export const TaskModal = () => {
     setSelectedTaskList(+e.target.value);
   }
 
-  function handleFormSubmition(e: React.FormEvent) {
+  function handleChangeListFormSubmition(e: React.FormEvent) {
     e.preventDefault();
     if (taskData) {
       moveTaskToOtherList(taskData.id, +selectedTaskList);
@@ -118,7 +118,7 @@ export const TaskModal = () => {
 
             <hr />
             <ChangeTaskListForm
-              onFormSubmition={handleFormSubmition}
+              onFormSubmition={handleChangeListFormSubmition}
               onTaskListChange={handleTaskListChange}
               selectedTaskList={selectedTaskList}
               taskLists={taskLists}
