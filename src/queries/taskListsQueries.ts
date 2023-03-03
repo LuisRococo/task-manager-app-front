@@ -25,6 +25,7 @@ export const createTaskListQuerie = gql`
         assignedQuantity
         points
         description
+        order
         taskList {
           id
           name
@@ -49,6 +50,7 @@ export const getTaskListsByBoardQuery = gql`
         assignedQuantity
         points
         description
+        order
         taskList {
           id
           name

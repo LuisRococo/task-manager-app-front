@@ -66,15 +66,19 @@ export const TaskModal = () => {
     });
   }
 
-  function handleEditFormSubmit() {
-    const editedTask: ITask = JSON.parse(JSON.stringify(taskData));
-    editedTask.title = editFormData.title;
-    editedTask.points = editFormData.points;
-    editedTask.description = editFormData.description;
-    editTaskData(editedTask);
-    resetFormData();
-    closeTaskDataModal();
-    return false;
+  async function handleEditFormSubmit(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      const editedTask: ITask = JSON.parse(JSON.stringify(taskData));
+      editedTask.title = editFormData.title;
+      editedTask.points = +editFormData.points;
+      editedTask.description = editFormData.description;
+      editTaskData(editedTask);
+      resetFormData();
+      closeTaskDataModal();
+    } catch (error) {
+      alert("There was an error, try later");
+    }
   }
 
   useEffect(() => {

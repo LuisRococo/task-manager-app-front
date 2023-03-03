@@ -3,7 +3,7 @@ import { useRecoilState } from "recoil";
 import { ITaskListState } from "../interfaces/taskList";
 import { ITask } from "../interfaces/task";
 import { useTaskListState } from "./useTaskListState";
-import { createTaskQuery } from "../queries/taskQueries";
+import { createTaskQuery, patchTaskQuery } from "../queries/taskQueries";
 import { client } from "../components/wrappers/ApolloConfig";
 
 export const useTaskState = () => {
@@ -158,7 +158,20 @@ export const useTaskState = () => {
     orderTasks();
   }
 
-  function editTaskData(newTask: ITask) {
+  async function editTaskData(newTask: ITask) {
+    await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: newTask.id,
+        title: newTask.title,
+        description: newTask.description,
+        points: newTask.points,
+        taskListId: newTask.taskList.id,
+        order: newTask.order,
+        completed: newTask.completed,
+      },
+    });
+
     const editedTaskList: ITaskListState = JSON.parse(
       JSON.stringify(findTaskList(newTask.taskList.id))
     );
