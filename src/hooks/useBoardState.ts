@@ -1,6 +1,5 @@
 import { useRecoilState } from "recoil";
 import { boardState } from "../appState/boardState";
-import { IBoardState } from "../interfaces/board";
 import { client } from "../components/wrappers/ApolloConfig";
 import { findBoardQuerie, patchBoardQuerie } from "../queries/boardQueries";
 
@@ -17,22 +16,20 @@ export const useBoardState = () => {
   }
 
   async function changeBoardVisibility(newValue: boolean) {
-    const updatedBoard: IBoardState = {
-      ...board,
-      isPublic: newValue,
-    } as IBoardState;
-    setBoard(updatedBoard);
+    if (board) {
+      updateBoard({ id: board.id, isPublic: newValue, title: null });
+    }
   }
 
   async function updateBoard(data: {
     id: number;
-    title?: string;
-    isPublic?: boolean;
+    title: string | null;
+    isPublic: boolean | null;
   }) {
     const { id, isPublic, title } = data;
     const queryResult = await client.mutate({
       mutation: patchBoardQuerie,
-      variables: { id, isPublic, title },
+      variables: { id, isPublic: isPublic, title: title },
     });
 
     const updatedBoard = queryResult.data.patchBoard;

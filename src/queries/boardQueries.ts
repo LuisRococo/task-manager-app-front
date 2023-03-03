@@ -11,8 +11,8 @@ export const findBoardQuerie = gql`
 `;
 
 export const patchBoardQuerie = gql`
-  mutation PatchTaskList($id: Int!, $title: String, $isPublic: Boolean) {
-    patchTaskList(id: $id, title: $title, isPublic: $isPublic) {
+  mutation PatchBoard($id: Int!, $title: String, $isPublic: Boolean) {
+    patchBoard(id: $id, title: $title, isPublic: $isPublic) {
       id
       title
       isPublic
