@@ -8,13 +8,25 @@ import { TaskModalData } from "./TaskModalData";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 import { ChangeTaskListForm } from "./ChangeTaskListForm";
 
+interface IFormData {
+  title: string;
+  points: number;
+  description: string;
+}
+
 export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
   const { taskData } = modalsVisibility.taskDetailsModal;
   const { deleteTask, moveTaskToOtherList, taskLists } = useTaskListState();
   const [selectedTaskList, setSelectedTaskList] = useState(0);
+  const [editFormData, setEditFormData] = useState<IFormData>({
+    description: "",
+    points: 0,
+    title: "",
+  });
 
   function handleModalClose() {
+    resetFormData();
     closeTaskDataModal();
   }
 
@@ -22,6 +34,7 @@ export const TaskModal = () => {
   function handleDeleteBtnClick() {
     if (!taskData) return;
     deleteTask(taskData.id);
+    resetFormData();
     closeTaskDataModal();
   }
 
@@ -33,13 +46,31 @@ export const TaskModal = () => {
     e.preventDefault();
     if (taskData) {
       moveTaskToOtherList(taskData.id, +selectedTaskList);
+      resetFormData();
       closeTaskDataModal();
     }
+  }
+
+  function handleInputChange(fieldName: string, newValue: string) {
+    setEditFormData({ ...editFormData, [fieldName]: newValue });
+  }
+
+  function resetFormData() {
+    setEditFormData({
+      description: "",
+      points: 0,
+      title: "",
+    });
   }
 
   useEffect(() => {
     if (taskData) {
       setSelectedTaskList(taskData.taskList.id);
+      setEditFormData({
+        description: taskData.description,
+        points: taskData.points,
+        title: taskData.title,
+      });
     }
   }, [taskData]);
 
@@ -71,6 +102,69 @@ export const TaskModal = () => {
               selectedTaskList={selectedTaskList}
               taskLists={taskLists}
             />
+
+            <hr />
+            <h4>Edit Data</h4>
+            <form className="mb-3">
+              <div className="container">
+                <div className="row">
+                  <div className="col-6">
+                    <div className="mb-3">
+                      <label className="form-label">Title</label>
+                      <input
+                        type="text"
+                        className="form-control"
+                        value={editFormData.title}
+                        onChange={(e) =>
+                          handleInputChange("title", e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-6">
+                    <div className="mb-3">
+                      <label className="form-label">Points</label>
+                      <input
+                        type="number"
+                        className="form-control"
+                        value={editFormData.points}
+                        onChange={(e) =>
+                          handleInputChange("points", e.target.value)
+                        }
+                      />
+                    </div>
+                  </div>
+
+                  <div className="col-12">
+                    <div className="mb-3">
+                      <label className="form-label">Description</label>
+                      <textarea
+                        className="form-control"
+                        rows={3}
+                        value={editFormData.description}
+                        onChange={(e) =>
+                          handleInputChange("description", e.target.value)
+                        }
+                      ></textarea>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="d-flex justify-content-end">
+                  <button
+                    type="button"
+                    className="btn btn-danger me-2"
+                    onClick={handleDeleteBtnClick}
+                  >
+                    Delete
+                  </button>
+                  <button type="submit" className="btn btn-primary">
+                    Edit Data
+                  </button>
+                </div>
+              </div>
+            </form>
           </div>
         </Modal>,
         document.getElementById("task-option-modal") as any
