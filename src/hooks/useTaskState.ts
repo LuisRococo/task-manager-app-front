@@ -138,7 +138,7 @@ export const useTaskState = () => {
     setTaskLists(taskListsEdited);
   }
 
-  function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
+  async function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
     const movedTask: ITask = JSON.parse(JSON.stringify(findTask(idMovedTask)));
     const targetTask: ITask = JSON.parse(
       JSON.stringify(findTask(idTargetTask))
@@ -146,6 +146,31 @@ export const useTaskState = () => {
 
     if (!movedTask || !targetTask) return;
     if (movedTask.taskList.id !== targetTask.taskList.id) return;
+
+    await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: movedTask.id,
+        order: targetTask.order,
+        taskListId: null,
+        title: null,
+        description: null,
+        points: null,
+        completed: null,
+      },
+    });
+    await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: targetTask.id,
+        order: movedTask.order,
+        taskListId: null,
+        title: null,
+        description: null,
+        points: null,
+        completed: null,
+      },
+    });
 
     const targetTaskOrder = targetTask.order;
     targetTask.order = movedTask.order;

@@ -27,14 +27,18 @@ export const TaskCard: React.FC<ITask> = ({
       collect: (monitor) => ({
         opacity: monitor.isDragging() ? 0.5 : 1,
       }),
-      end: (item, monitor) => {
-        const dropResult = monitor.getDropResult() as any;
-        if (item && dropResult) {
-          if (dropResult.type === DragAndDropItems.LIST) {
-            moveTaskToOtherList(item.taskId, dropResult.listId);
-          } else if (dropResult.type === DragAndDropItems.TASK) {
-            changeTaskOrder(taskId, dropResult.taskId);
+      end: async (item, monitor) => {
+        try {
+          const dropResult = monitor.getDropResult() as any;
+          if (item && dropResult) {
+            if (dropResult.type === DragAndDropItems.LIST) {
+              moveTaskToOtherList(item.taskId, dropResult.listId);
+            } else if (dropResult.type === DragAndDropItems.TASK) {
+              await changeTaskOrder(taskId, dropResult.taskId);
+            }
           }
+        } catch (error) {
+          alert("There was an error, try again later");
         }
       },
     }),
