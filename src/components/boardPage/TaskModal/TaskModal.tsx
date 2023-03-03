@@ -76,12 +76,13 @@ export const TaskModal = () => {
       editedTask.title = editFormData.title;
       editedTask.points = +editFormData.points;
       editedTask.description = editFormData.description;
-      editTaskData(editedTask);
+      await editTaskData(editedTask);
       resetFormData();
       closeTaskDataModal();
     } catch (error) {
       alert("There was an error, try later");
     }
+    return;
   }
 
   useEffect(() => {
