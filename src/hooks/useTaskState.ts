@@ -101,7 +101,20 @@ export const useTaskState = () => {
     setTaskLists(taskListsEdited);
   }
 
-  function moveTaskToOtherList(taskId: number, targetListId: number) {
+  async function moveTaskToOtherList(taskId: number, targetListId: number) {
+    const queryResult = await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: taskId,
+        taskListId: targetListId,
+        title: null,
+        description: null,
+        points: null,
+        order: null,
+        completed: null,
+      },
+    });
+
     const taskListsEdited: ITaskListState[] = JSON.parse(
       JSON.stringify(taskLists)
     );
@@ -121,6 +134,7 @@ export const useTaskState = () => {
     );
 
     if (!taskToEdit) return;
+    taskToEdit.order = queryResult.data.order;
     taskToEdit.taskList = {
       id: targetTaskList.id,
       name: targetTaskList.name,
