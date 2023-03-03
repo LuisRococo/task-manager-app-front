@@ -5,6 +5,7 @@ import logoImg from "../../../assets/logo.png";
 import { MenuBtn } from "./MenuBtn";
 import { BiTask } from "react-icons/bi";
 import { FaTasks } from "react-icons/fa";
+import { CgBoard } from "react-icons/cg";
 import { boardMenuVisibilityState } from "../../../appState/boardMenuState";
 import { useRecoilState } from "recoil";
 import { useModalState } from "../../../hooks/useModalState";
@@ -54,6 +55,13 @@ export const BoardMenu = () => {
                 onClick={() => {
                   setBoardVisibility(false);
                   changeCreateTaskListModalVisibility(true);
+                }}
+              />
+              <MenuBtn
+                Icon={CgBoard}
+                text="Edit Board"
+                onClick={() => {
+                  console.log("Placeholder");
                 }}
               />
             </div>

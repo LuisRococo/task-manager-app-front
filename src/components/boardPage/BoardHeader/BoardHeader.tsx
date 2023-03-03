@@ -2,6 +2,7 @@ import React from "react";
 import "./BoardHeader.scss";
 import { BoardVisibilityOption } from "./BoardVisibilityOption";
 import { BoardHeaderMenuBtn } from "./BoardHeaderMenuBtn";
+import { BiEdit } from "react-icons/bi";
 
 interface IBoardHeader {
   boardTitle: string;
@@ -24,7 +25,12 @@ const BoardHeader: React.FC<IBoardHeader> = ({
             alt="project image"
           />
           <div className="d-flex flex-column justify-content-center">
-            <h5>{projectTitle}</h5>
+            <div className="d-flex align-items-center">
+              <h5 className="m-0">{projectTitle}</h5>
+              <div className="edit-board-btn ms-2">
+                <BiEdit size={25} color="#d3451a" />
+              </div>
+            </div>
             <p className="m-0 p-0 text-secondary fst-italic">Board</p>
           </div>
         </div>
