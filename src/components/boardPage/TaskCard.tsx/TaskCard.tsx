@@ -5,7 +5,7 @@ import { TaskCardStatus } from "../TaskCardStatus/TaskCardStatus";
 import { useModalState } from "../../../hooks/useModalState";
 import { useDrag, useDrop } from "react-dnd";
 import { DragAndDropItems } from "../../../utils/dragAndDropTypes";
-import { useTaskListState } from "../../../hooks/useTaskListState";
+import { useTaskState } from "../../../hooks/useTaskState";
 
 export const TaskCard: React.FC<ITask> = ({
   assignedQuantity,
@@ -19,7 +19,7 @@ export const TaskCard: React.FC<ITask> = ({
   order,
 }) => {
   const { openTaskDataModal } = useModalState();
-  const { moveTaskToOtherList, changeTaskOrder } = useTaskListState();
+  const { moveTaskToOtherList, changeTaskOrder } = useTaskState();
   const [{ opacity }, dragRef] = useDrag(
     () => ({
       type: DragAndDropItems.TASK,
