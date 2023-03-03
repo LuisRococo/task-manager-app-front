@@ -12,21 +12,8 @@ import { client } from "../components/wrappers/ApolloConfig";
 
 export const useTaskState = () => {
   const [, setTaskLists] = useRecoilState(taskListState);
-  const { taskLists, findTaskList, setSingleTaskList } = useTaskListState();
-
-  function orderTasks() {
-    setTaskLists((prev) => {
-      let editedLists: ITaskListState[] = JSON.parse(JSON.stringify(prev));
-      editedLists = editedLists.map((list) => {
-        list.tasks.sort((a, b) => {
-          return a.order - b.order;
-        });
-        return list;
-      });
-
-      return editedLists;
-    });
-  }
+  const { taskLists, findTaskList, setSingleTaskList, getTasksOrdered } =
+    useTaskListState();
 
   function findTask(idTask: number): ITask | null {
     let foundTask: ITask | null = null;
@@ -115,7 +102,7 @@ export const useTaskState = () => {
       },
     });
 
-    const taskListsEdited: ITaskListState[] = JSON.parse(
+    let taskListsEdited: ITaskListState[] = JSON.parse(
       JSON.stringify(taskLists)
     );
 
@@ -147,8 +134,8 @@ export const useTaskState = () => {
       }
     }
 
+    taskListsEdited = getTasksOrdered(taskListsEdited);
     setTaskLists(taskListsEdited);
-    orderTasks();
   }
 
   function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
@@ -180,7 +167,6 @@ export const useTaskState = () => {
     }
 
     setSingleTaskList(taskListEdited);
-    orderTasks();
   }
 
   async function editTaskData(newTask: ITask) {
@@ -210,11 +196,9 @@ export const useTaskState = () => {
     editedTaskList.tasks[indexOfTask] = newTask;
 
     setSingleTaskList(editedTaskList);
-    orderTasks();
   }
 
   return {
-    orderTasks,
     findTask,
     deleteTask,
     createTask,

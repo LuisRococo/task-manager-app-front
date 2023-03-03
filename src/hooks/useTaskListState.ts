@@ -22,8 +22,8 @@ export const useTaskListState = () => {
     });
 
     setTaskLists(queryResult.data.boardTaskLists);
-    orderTaskListsByPriority();
     orderTasks();
+    orderTaskListsByPriority();
   }
   /* eslint-enable */
 
@@ -39,11 +39,24 @@ export const useTaskListState = () => {
       },
     });
 
-    const updatedTaskLists = [...taskLists];
+    let updatedTaskLists = [...taskLists];
     updatedTaskLists[elementIndex] = taskList;
 
+    updatedTaskLists = getTasksOrdered(updatedTaskLists);
     setTaskLists(updatedTaskLists);
     orderTaskListsByPriority();
+  }
+
+  function getTasksOrdered(lists: ITaskListState[]) {
+    let editedLists: ITaskListState[] = JSON.parse(JSON.stringify(lists));
+    editedLists = editedLists.map((list) => {
+      list.tasks.sort((a, b) => {
+        return a.order - b.order;
+      });
+      return list;
+    });
+
+    return editedLists;
   }
 
   function orderTasks() {
@@ -162,5 +175,6 @@ export const useTaskListState = () => {
     deleteTaskList,
     createTaskLists,
     exchangeListPosition,
+    getTasksOrdered,
   };
 };
