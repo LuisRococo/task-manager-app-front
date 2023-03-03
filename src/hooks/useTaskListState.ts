@@ -162,7 +162,6 @@ export const useTaskListState = () => {
 
     const newTask: ITask = {
       ...querieResult.data.createTask,
-      order: taskListObjective.tasks.length + 1,
     };
 
     const taskListsEdited: ITaskListState[] = JSON.parse(
