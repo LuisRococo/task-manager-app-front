@@ -158,6 +158,22 @@ export const useTaskState = () => {
     orderTasks();
   }
 
+  function editTaskData(newTask: ITask) {
+    const editedTaskList: ITaskListState = JSON.parse(
+      JSON.stringify(findTaskList(newTask.taskList.id))
+    );
+    if (!editedTaskList) return;
+
+    const indexOfTask = editedTaskList.tasks.findIndex(
+      (task) => task.id === newTask.id
+    );
+    if (indexOfTask === -1) return;
+
+    editedTaskList.tasks[indexOfTask] = newTask;
+
+    setSingleTaskList(editedTaskList);
+  }
+
   return {
     orderTasks,
     findTask,
@@ -165,5 +181,6 @@ export const useTaskState = () => {
     createTask,
     moveTaskToOtherList,
     changeTaskOrder,
+    editTaskData,
   };
 };

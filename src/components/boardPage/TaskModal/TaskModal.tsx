@@ -8,6 +8,7 @@ import { TaskModalData } from "./TaskModalData";
 import { useTaskListState } from "../../../hooks/useTaskListState";
 import { ChangeTaskListForm } from "./ChangeTaskListForm";
 import { useTaskState } from "../../../hooks/useTaskState";
+import { ITask } from "../../../interfaces/task";
 
 interface IFormData {
   title: string;
@@ -19,7 +20,7 @@ export const TaskModal = () => {
   const { closeTaskDataModal, modalsVisibility } = useModalState();
   const { taskData } = modalsVisibility.taskDetailsModal;
   const { taskLists } = useTaskListState();
-  const { deleteTask, moveTaskToOtherList } = useTaskState();
+  const { deleteTask, moveTaskToOtherList, editTaskData } = useTaskState();
   const [selectedTaskList, setSelectedTaskList] = useState(0);
   const [editFormData, setEditFormData] = useState<IFormData>({
     description: "",
@@ -65,6 +66,17 @@ export const TaskModal = () => {
     });
   }
 
+  function handleEditFormSubmit() {
+    const editedTask: ITask = JSON.parse(JSON.stringify(taskData));
+    editedTask.title = editFormData.title;
+    editedTask.points = editFormData.points;
+    editedTask.description = editFormData.description;
+    editTaskData(editedTask);
+    resetFormData();
+    closeTaskDataModal();
+    return false;
+  }
+
   useEffect(() => {
     if (taskData) {
       setSelectedTaskList(taskData.taskList.id);
@@ -107,7 +119,7 @@ export const TaskModal = () => {
 
             <hr />
             <h4>Edit Data</h4>
-            <form className="mb-3">
+            <form className="mb-3" onSubmit={handleEditFormSubmit}>
               <div className="container">
                 <div className="row">
                   <div className="col-6">
