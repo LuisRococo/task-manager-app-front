@@ -124,6 +124,7 @@ export const useTaskState = () => {
     }
 
     setTaskLists(taskListsEdited);
+    orderTasks();
   }
 
   function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
@@ -185,6 +186,7 @@ export const useTaskState = () => {
     editedTaskList.tasks[indexOfTask] = newTask;
 
     setSingleTaskList(editedTaskList);
+    orderTasks();
   }
 
   return {

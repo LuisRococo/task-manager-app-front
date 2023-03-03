@@ -23,6 +23,7 @@ export const useTaskListState = () => {
 
     setTaskLists(queryResult.data.boardTaskLists);
     orderTaskListsByPriority();
+    orderTasks();
   }
   /* eslint-enable */
 
@@ -43,6 +44,20 @@ export const useTaskListState = () => {
 
     setTaskLists(updatedTaskLists);
     orderTaskListsByPriority();
+  }
+
+  function orderTasks() {
+    setTaskLists((prev) => {
+      let editedLists: ITaskListState[] = JSON.parse(JSON.stringify(prev));
+      editedLists = editedLists.map((list) => {
+        list.tasks.sort((a, b) => {
+          return a.order - b.order;
+        });
+        return list;
+      });
+
+      return editedLists;
+    });
   }
 
   async function deleteTaskList(taskListId: number) {
