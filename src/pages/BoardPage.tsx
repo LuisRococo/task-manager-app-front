@@ -9,6 +9,7 @@ import { CreateTaskListModal } from "../components/boardPage/CreateTaskListModal
 import { TaskModal } from "../components/boardPage/TaskModal/TaskModal";
 import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateTaskModal";
 import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
+import { EditBoardModal } from "../components/boardPage/EditBoardModal/EditBoardModal";
 
 function BoardPage() {
   const searchParams = new URLSearchParams(document.location.search);
@@ -42,6 +43,7 @@ function BoardPage() {
 
   return (
     <>
+      <EditBoardModal />
       <CreateTaskListModal />
       <CreateTaskModal />
       <TaskModal />

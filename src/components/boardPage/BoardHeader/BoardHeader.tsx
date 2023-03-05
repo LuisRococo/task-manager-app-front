@@ -3,6 +3,7 @@ import "./BoardHeader.scss";
 import { BoardVisibilityOption } from "./BoardVisibilityOption";
 import { BoardHeaderMenuBtn } from "./BoardHeaderMenuBtn";
 import { BiEdit } from "react-icons/bi";
+import { useModalState } from "../../../hooks/useModalState";
 
 interface IBoardHeader {
   boardTitle: string;
@@ -15,6 +16,12 @@ const BoardHeader: React.FC<IBoardHeader> = ({
   boardTitle: projectTitle,
   boardVisibility,
 }) => {
+  const { changeEditBoardModalVisibility } = useModalState();
+
+  function handleBoardOptionBtnClick() {
+    changeEditBoardModalVisibility(true);
+  }
+
   return (
     <div className="py-5">
       <div className="d-flex justify-content-between align-items-center">
@@ -27,7 +34,10 @@ const BoardHeader: React.FC<IBoardHeader> = ({
           <div className="d-flex flex-column justify-content-center">
             <div className="d-flex align-items-center">
               <h5 className="m-0">{projectTitle}</h5>
-              <div className="edit-board-btn ms-2">
+              <div
+                onClick={handleBoardOptionBtnClick}
+                className="edit-board-btn ms-2"
+              >
                 <BiEdit size={25} color="#d3451a" />
               </div>
             </div>

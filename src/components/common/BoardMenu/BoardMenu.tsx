@@ -14,6 +14,7 @@ export const BoardMenu = () => {
   const {
     changeCreateTaskListModalVisibility,
     changeCreateTaskModalVisibility,
+    changeEditBoardModalVisibility,
   } = useModalState();
   const [boardVisibility, setBoardVisibility] = useRecoilState(
     boardMenuVisibilityState
@@ -61,7 +62,8 @@ export const BoardMenu = () => {
                 Icon={CgBoard}
                 text="Edit Board"
                 onClick={() => {
-                  console.log("Placeholder");
+                  setBoardVisibility(false);
+                  changeEditBoardModalVisibility(true);
                 }}
               />
             </div>

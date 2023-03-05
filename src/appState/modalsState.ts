@@ -10,6 +10,7 @@ export interface IModalsState {
   createTaskListModal: boolean;
   createTaskModal: boolean;
   taskDetailsModal: ITaskDetailModal;
+  boardEditModal: boolean;
 }
 
 export const modalsState = atom<IModalsState>({
@@ -19,5 +20,6 @@ export const modalsState = atom<IModalsState>({
     createTaskListModal: false,
     createTaskModal: false,
     taskDetailsModal: { visibility: false, taskData: undefined },
+    boardEditModal: false,
   },
 });

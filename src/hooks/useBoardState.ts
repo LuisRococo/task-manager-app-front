@@ -2,6 +2,7 @@ import { useRecoilState } from "recoil";
 import { boardState } from "../appState/boardState";
 import { client } from "../components/wrappers/ApolloConfig";
 import { findBoardQuerie, patchBoardQuerie } from "../queries/boardQueries";
+import { IBoardState } from "../interfaces/board";
 
 export const useBoardState = () => {
   const [board, setBoard] = useRecoilState(boardState);
@@ -21,6 +22,14 @@ export const useBoardState = () => {
     }
   }
 
+  async function changeBoardData(boardToChange: IBoardState) {
+    updateBoard({
+      id: boardToChange.id,
+      title: boardToChange.title,
+      isPublic: null,
+    });
+  }
+
   async function updateBoard(data: {
     id: number;
     title: string | null;
@@ -36,5 +45,12 @@ export const useBoardState = () => {
     setBoard(updatedBoard);
   }
 
-  return { board, fetchBoard, setBoard, changeBoardVisibility, updateBoard };
+  return {
+    board,
+    fetchBoard,
+    setBoard,
+    changeBoardVisibility,
+    updateBoard,
+    changeBoardData,
+  };
 };
