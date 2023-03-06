@@ -12,21 +12,8 @@ import { client } from "../components/wrappers/ApolloConfig";
 
 export const useTaskState = () => {
   const [, setTaskLists] = useRecoilState(taskListState);
-  const { taskLists, findTaskList, setSingleTaskList } = useTaskListState();
-
-  function orderTasks() {
-    setTaskLists((prev) => {
-      let editedLists: ITaskListState[] = JSON.parse(JSON.stringify(prev));
-      editedLists = editedLists.map((list) => {
-        list.tasks.sort((a, b) => {
-          return a.order - b.order;
-        });
-        return list;
-      });
-
-      return editedLists;
-    });
-  }
+  const { taskLists, findTaskList, setSingleTaskList, getTasksOrdered } =
+    useTaskListState();
 
   function findTask(idTask: number): ITask | null {
     let foundTask: ITask | null = null;
@@ -101,8 +88,21 @@ export const useTaskState = () => {
     setTaskLists(taskListsEdited);
   }
 
-  function moveTaskToOtherList(taskId: number, targetListId: number) {
-    const taskListsEdited: ITaskListState[] = JSON.parse(
+  async function moveTaskToOtherList(taskId: number, targetListId: number) {
+    const queryResult = await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: taskId,
+        taskListId: targetListId,
+        title: null,
+        description: null,
+        points: null,
+        order: null,
+        completed: null,
+      },
+    });
+
+    let taskListsEdited: ITaskListState[] = JSON.parse(
       JSON.stringify(taskLists)
     );
 
@@ -121,6 +121,7 @@ export const useTaskState = () => {
     );
 
     if (!taskToEdit) return;
+    taskToEdit.order = queryResult.data.order;
     taskToEdit.taskList = {
       id: targetTaskList.id,
       name: targetTaskList.name,
@@ -133,11 +134,11 @@ export const useTaskState = () => {
       }
     }
 
+    taskListsEdited = getTasksOrdered(taskListsEdited);
     setTaskLists(taskListsEdited);
-    orderTasks();
   }
 
-  function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
+  async function changeTaskOrder(idMovedTask: number, idTargetTask: number) {
     const movedTask: ITask = JSON.parse(JSON.stringify(findTask(idMovedTask)));
     const targetTask: ITask = JSON.parse(
       JSON.stringify(findTask(idTargetTask))
@@ -145,6 +146,31 @@ export const useTaskState = () => {
 
     if (!movedTask || !targetTask) return;
     if (movedTask.taskList.id !== targetTask.taskList.id) return;
+
+    await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: movedTask.id,
+        order: targetTask.order,
+        taskListId: null,
+        title: null,
+        description: null,
+        points: null,
+        completed: null,
+      },
+    });
+    await client.mutate({
+      mutation: patchTaskQuery,
+      variables: {
+        id: targetTask.id,
+        order: movedTask.order,
+        taskListId: null,
+        title: null,
+        description: null,
+        points: null,
+        completed: null,
+      },
+    });
 
     const targetTaskOrder = targetTask.order;
     targetTask.order = movedTask.order;
@@ -166,7 +192,6 @@ export const useTaskState = () => {
     }
 
     setSingleTaskList(taskListEdited);
-    orderTasks();
   }
 
   async function editTaskData(newTask: ITask) {
@@ -196,11 +221,9 @@ export const useTaskState = () => {
     editedTaskList.tasks[indexOfTask] = newTask;
 
     setSingleTaskList(editedTaskList);
-    orderTasks();
   }
 
   return {
-    orderTasks,
     findTask,
     deleteTask,
     createTask,

@@ -48,13 +48,18 @@ export const TaskModal = () => {
     setSelectedTaskList(+e.target.value);
   }
 
-  function handleChangeListFormSubmition(e: React.FormEvent) {
-    e.preventDefault();
-    if (taskData) {
-      moveTaskToOtherList(taskData.id, +selectedTaskList);
-      resetFormData();
-      closeTaskDataModal();
+  async function handleChangeListFormSubmition(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      if (taskData) {
+        await moveTaskToOtherList(taskData.id, +selectedTaskList);
+        resetFormData();
+        closeTaskDataModal();
+      }
+    } catch (error) {
+      alert("There was an error, try later");
     }
+    return;
   }
 
   function handleInputChange(fieldName: string, newValue: string) {
