@@ -29,3 +29,21 @@
 .board-menu-btn:active {
     background-color: #c4c4c4;
 }
+
+.edit-board-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.edit-board-btn:hover {
+    background-color: #e4e4e4;
+}
+
+.edit-board-btn:active {
+    background-color: #d6d6d6;
+}

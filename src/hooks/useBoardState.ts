@@ -1,13 +1,12 @@
 import { useRecoilState } from "recoil";
 import { boardState } from "../appState/boardState";
-import { IBoardState } from "../interfaces/board";
 import { client } from "../components/wrappers/ApolloConfig";
-import { findBoardQuerie } from "../queries/boardQueries";
+import { findBoardQuerie, patchBoardQuerie } from "../queries/boardQueries";
+import { IBoardState } from "../interfaces/board";
 
 export const useBoardState = () => {
   const [board, setBoard] = useRecoilState(boardState);
 
-  /* eslint-disable */
   async function fetchBoard(boardId: number) {
     const queryResult = await client.query({
       query: findBoardQuerie,
@@ -16,15 +15,42 @@ export const useBoardState = () => {
 
     setBoard(queryResult.data.board);
   }
-  /* eslint-enable */
 
   async function changeBoardVisibility(newValue: boolean) {
-    const updatedBoard: IBoardState = {
-      ...board,
-      isPublic: newValue,
-    } as IBoardState;
+    if (board) {
+      updateBoard({ id: board.id, isPublic: newValue, title: null });
+    }
+  }
+
+  async function changeBoardData(boardToChange: IBoardState) {
+    updateBoard({
+      id: boardToChange.id,
+      title: boardToChange.title,
+      isPublic: null,
+    });
+  }
+
+  async function updateBoard(data: {
+    id: number;
+    title: string | null;
+    isPublic: boolean | null;
+  }) {
+    const { id, isPublic, title } = data;
+    const queryResult = await client.mutate({
+      mutation: patchBoardQuerie,
+      variables: { id, isPublic: isPublic, title: title },
+    });
+
+    const updatedBoard = queryResult.data.patchBoard;
     setBoard(updatedBoard);
   }
 
-  return { board, fetchBoard, setBoard, changeBoardVisibility };
+  return {
+    board,
+    fetchBoard,
+    setBoard,
+    changeBoardVisibility,
+    updateBoard,
+    changeBoardData,
+  };
 };

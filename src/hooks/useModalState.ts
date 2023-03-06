@@ -23,6 +23,12 @@ export const useModalState = () => {
     setModalsVisibility(stateToUpdate);
   }
 
+  function changeEditBoardModalVisibility(visible: boolean) {
+    const stateToUpdate: IModalsState = { ...modalsVisibility };
+    stateToUpdate.boardEditModal = visible;
+    setModalsVisibility(stateToUpdate);
+  }
+
   function closeTaskDataModal() {
     const stateToUpdate: IModalsState = JSON.parse(
       JSON.stringify(modalsVisibility)
@@ -51,5 +57,6 @@ export const useModalState = () => {
     closeTaskDataModal,
     openTaskDataModal,
     changeCreateTaskModalVisibility,
+    changeEditBoardModalVisibility,
   };
 };
