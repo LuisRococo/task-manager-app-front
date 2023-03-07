@@ -32,6 +32,7 @@ export const useUserState = () => {
         email: responseData.email,
         firstName: responseData.first_name,
         lastName: responseData.last_name,
+        authType: responseData.authorization_tier,
       },
     });
   }
