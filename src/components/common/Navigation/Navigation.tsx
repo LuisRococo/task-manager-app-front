@@ -2,10 +2,10 @@ import React from "react";
 import logoImg from "../../../assets/logo.png";
 import "./Navigation.scss";
 import { selectedBoardIdState } from "../../../appState/selectedBoardIdState";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 export const Navigation: React.FC = () => {
-  const [, setSelectedBoard] = useRecoilState(selectedBoardIdState);
+  const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
   function handleNavLogoClick() {
     setSelectedBoard({ id: null });
   }

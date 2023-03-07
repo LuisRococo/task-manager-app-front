@@ -4,13 +4,13 @@ import { BoardCard } from "../components/selectionPage/boardCard/BoardCard";
 import { useBoardState } from "../hooks/useBoardState";
 import { useUserState } from "../hooks/useUserState";
 import { selectedBoardIdState } from "../appState/selectedBoardIdState";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState } from "recoil";
 
 export const BoardSelectPage = () => {
   const [boards, setBoards] = useState<{ id: number; title: string }[]>([]);
   const { fetchUserBoards } = useBoardState();
   const { user } = useUserState();
-  const [, setSelectedBoard] = useRecoilState(selectedBoardIdState);
+  const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
 
   function handleCardButtonClick(idBoard: number) {
     setSelectedBoard({ id: idBoard });

@@ -15,7 +15,8 @@ import { useRecoilState } from "recoil";
 import { selectedBoardIdState } from "../appState/selectedBoardIdState";
 
 function BoardPage() {
-  const [selectedBoard, setSelectedId] = useRecoilState(selectedBoardIdState);
+  const [{ id: selectedBoardId }, setSelectedId] =
+    useRecoilState(selectedBoardIdState);
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
@@ -23,11 +24,11 @@ function BoardPage() {
 
   async function initData() {
     try {
-      if (!selectedBoard.id) {
+      if (!selectedBoardId) {
         return;
       }
-      await fetchBoard(+selectedBoard.id);
-      await fetchTaskLists(+selectedBoard.id);
+      await fetchBoard(+selectedBoardId);
+      await fetchTaskLists(+selectedBoardId);
     } catch (error) {
       setError(true);
     }
@@ -35,9 +36,9 @@ function BoardPage() {
 
   useEffect(() => {
     initData();
-  }, [selectedBoard.id]);
+  }, [selectedBoardId]);
 
-  if (!selectedBoard.id) {
+  if (!selectedBoardId) {
     return <BoardSelectPage />;
   }
 
