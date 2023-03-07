@@ -10,6 +10,7 @@ import { TaskModal } from "../components/boardPage/TaskModal/TaskModal";
 import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateTaskModal";
 import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
 import { EditBoardModal } from "../components/boardPage/EditBoardModal/EditBoardModal";
+import { BoardSelectPage } from "./BoardSelectPage";
 
 function BoardPage() {
   const searchParams = new URLSearchParams(document.location.search);
@@ -40,6 +41,10 @@ function BoardPage() {
     return <GeneralErrorMessage />;
   } else if (!board || !taskLists)
     return <div className="page-cont full-height-cont"></div>;
+
+  if (true) {
+    return <BoardSelectPage />;
+  }
 
   return (
     <>
