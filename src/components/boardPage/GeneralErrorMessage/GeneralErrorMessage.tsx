@@ -12,7 +12,10 @@ export const GeneralErrorMessage: React.FC<IGeneralErrorMessage> = ({
       <div className="text-center mt-5">
         <h3>There was an error</h3>
         <p className="m-0">Maybe you selected an invalid board</p>
-        <button onClick={onSelectededBoardIdReset} className="btn btn-primary">
+        <button
+          onClick={onSelectededBoardIdReset}
+          className="btn btn-primary mt-3"
+        >
           See all boards
         </button>
       </div>
