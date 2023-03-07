@@ -43,9 +43,14 @@ export const useUserState = () => {
     }
   }
 
+  function logout() {
+    removeTokenFromLocalStorage();
+    redirectToLogin();
+  }
+
   useEffect(() => {
     initUser();
   }, [userToken]);
 
-  return { user };
+  return { user, logout };
 };

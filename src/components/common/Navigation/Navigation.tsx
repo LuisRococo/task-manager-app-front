@@ -11,10 +11,15 @@ import { ProfileMenuBtn } from "./ProfileMenuBtn";
 
 export const Navigation: React.FC = () => {
   const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
-  const { user } = useUserState();
+  const { user, logout } = useUserState();
   const { userData } = user;
+
   function handleNavLogoClick() {
     setSelectedBoard({ id: null });
+  }
+
+  function handleLogOutBtnClick() {
+    logout();
   }
 
   return (
@@ -50,9 +55,7 @@ export const Navigation: React.FC = () => {
                 <ProfileMenuBtn
                   title="Logout"
                   Icon={MdOutlineLogout}
-                  onClick={() => {
-                    console.log("Placeholder");
-                  }}
+                  onClick={() => handleLogOutBtnClick()}
                 />
               </div>
             </div>
