@@ -1,20 +1,19 @@
-import React, { FC, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { SelectionPageHeader } from "../components/selectionPage/selectionPageHeader/SelectionPageHeader";
 import { BoardCard } from "../components/selectionPage/boardCard/BoardCard";
 import { useBoardState } from "../hooks/useBoardState";
 import { useUserState } from "../hooks/useUserState";
+import { selectedBoardIdState } from "../appState/selectedBoardIdState";
+import { useSetRecoilState } from "recoil";
 
-interface IBoardSelectPage {
-  onBoardSelection: (idBoard: number) => void;
-}
-
-export const BoardSelectPage: FC<IBoardSelectPage> = ({ onBoardSelection }) => {
+export const BoardSelectPage = () => {
   const [boards, setBoards] = useState<{ id: number; title: string }[]>([]);
   const { fetchUserBoards } = useBoardState();
   const { user } = useUserState();
+  const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
 
   function handleCardButtonClick(idBoard: number) {
-    onBoardSelection(idBoard);
+    setSelectedBoard({ id: idBoard });
   }
 
   async function getBoardsToSelect() {

@@ -11,9 +11,12 @@ import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateT
 import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
 import { EditBoardModal } from "../components/boardPage/EditBoardModal/EditBoardModal";
 import { BoardSelectPage } from "./BoardSelectPage";
+import { useRecoilState } from "recoil";
+import { selectedBoardIdState } from "../appState/selectedBoardIdState";
 
 function BoardPage() {
-  const [boardId, setBoardId] = useState<number | null>(null);
+  const [{ id: selectedBoardId }, setSelectedId] =
+    useRecoilState(selectedBoardIdState);
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
@@ -21,33 +24,29 @@ function BoardPage() {
 
   async function initData() {
     try {
-      if (!boardId) {
+      if (!selectedBoardId) {
         return;
       }
-      await fetchBoard(+boardId);
-      await fetchTaskLists(+boardId);
+      await fetchBoard(+selectedBoardId);
+      await fetchTaskLists(+selectedBoardId);
     } catch (error) {
       setError(true);
     }
   }
 
-  function handleBoardSelection(idBoard: number) {
-    setBoardId(idBoard);
-  }
-
   useEffect(() => {
     initData();
-  }, [boardId]);
+  }, [selectedBoardId]);
 
-  if (!boardId) {
-    return <BoardSelectPage onBoardSelection={handleBoardSelection} />;
+  if (!selectedBoardId) {
+    return <BoardSelectPage />;
   }
 
   if (error) {
     return (
       <GeneralErrorMessage
         onSelectededBoardIdReset={() => {
-          setBoardId(null);
+          setSelectedId({ id: null });
         }}
       />
     );
