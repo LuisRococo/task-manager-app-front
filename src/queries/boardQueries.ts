@@ -19,3 +19,12 @@ export const patchBoardQuerie = gql`
     }
   }
 `;
+
+export const getUserBoardsQuery = gql`
+  query UserBoards($id: Int!) {
+    userBoards(id: $id) {
+      id
+      title
+    }
+  }
+`;

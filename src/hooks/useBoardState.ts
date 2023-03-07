@@ -1,7 +1,11 @@
 import { useRecoilState } from "recoil";
 import { boardState } from "../appState/boardState";
 import { client } from "../components/wrappers/ApolloConfig";
-import { findBoardQuerie, patchBoardQuerie } from "../queries/boardQueries";
+import {
+  findBoardQuerie,
+  getUserBoardsQuery,
+  patchBoardQuerie,
+} from "../queries/boardQueries";
 import { IBoardState } from "../interfaces/board";
 
 export const useBoardState = () => {
@@ -45,6 +49,15 @@ export const useBoardState = () => {
     setBoard(updatedBoard);
   }
 
+  async function fetchUserBoards(userId: number) {
+    const queryResult = await client.query({
+      query: getUserBoardsQuery,
+      variables: { id: userId },
+    });
+
+    return queryResult.data.userBoards;
+  }
+
   return {
     board,
     fetchBoard,
@@ -52,5 +65,6 @@ export const useBoardState = () => {
     changeBoardVisibility,
     updateBoard,
     changeBoardData,
+    fetchUserBoards,
   };
 };

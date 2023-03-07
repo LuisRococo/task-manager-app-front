@@ -10,10 +10,10 @@ import { TaskModal } from "../components/boardPage/TaskModal/TaskModal";
 import { CreateTaskModal } from "../components/boardPage/CreateTaskModal/CreateTaskModal";
 import { GeneralErrorMessage } from "../components/boardPage/GeneralErrorMessage/GeneralErrorMessage";
 import { EditBoardModal } from "../components/boardPage/EditBoardModal/EditBoardModal";
+import { BoardSelectPage } from "./BoardSelectPage";
 
 function BoardPage() {
-  const searchParams = new URLSearchParams(document.location.search);
-  const boardId = searchParams.get("boardId");
+  const [boardId, setBoardId] = useState<number | null>(null);
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
@@ -22,7 +22,6 @@ function BoardPage() {
   async function initData() {
     try {
       if (!boardId) {
-        setError(true);
         return;
       }
       await fetchBoard(+boardId);
@@ -32,12 +31,26 @@ function BoardPage() {
     }
   }
 
+  function handleBoardSelection(idBoard: number) {
+    setBoardId(idBoard);
+  }
+
   useEffect(() => {
     initData();
-  }, []);
+  }, [boardId]);
+
+  if (!boardId) {
+    return <BoardSelectPage onBoardSelection={handleBoardSelection} />;
+  }
 
   if (error) {
-    return <GeneralErrorMessage />;
+    return (
+      <GeneralErrorMessage
+        onSelectededBoardIdReset={() => {
+          setBoardId(null);
+        }}
+      />
+    );
   } else if (!board || !taskLists)
     return <div className="page-cont full-height-cont"></div>;
 
