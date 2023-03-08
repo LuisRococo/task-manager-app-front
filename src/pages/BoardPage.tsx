@@ -15,8 +15,7 @@ import { useRecoilState } from "recoil";
 import { selectedBoardIdState } from "../appState/selectedBoardIdState";
 
 function BoardPage() {
-  const [{ id: selectedBoardId }, setSelectedId] =
-    useRecoilState(selectedBoardIdState);
+  const [{ id: selectedBoardId }] = useRecoilState(selectedBoardIdState);
   const [projectImage] = useState("https://via.placeholder.com/150");
   const { board, fetchBoard } = useBoardState();
   const { fetchTaskLists, taskLists } = useTaskListState();
@@ -43,13 +42,7 @@ function BoardPage() {
   }
 
   if (error) {
-    return (
-      <GeneralErrorMessage
-        onSelectededBoardIdReset={() => {
-          setSelectedId({ id: null });
-        }}
-      />
-    );
+    return <GeneralErrorMessage />;
   } else if (!board || !taskLists)
     return <div className="page-cont full-height-cont"></div>;
 

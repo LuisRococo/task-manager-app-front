@@ -6,13 +6,14 @@ import { useSetRecoilState } from "recoil";
 import profileImg from "../../../assets/profile.png";
 import { useUserState } from "../../../hooks/useUserState";
 import { AiFillEdit } from "react-icons/ai";
-import { MdOutlineLogout } from "react-icons/md";
+import { MdArrowDropDown, MdOutlineLogout } from "react-icons/md";
 import { ProfileMenuBtn } from "./ProfileMenuBtn";
 
 export const Navigation: React.FC = () => {
   const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
   const { user, logout } = useUserState();
   const { userData } = user;
+  const { firstName, authType } = userData || {};
 
   function handleNavLogoClick() {
     setSelectedBoard({ id: null });
@@ -39,8 +40,11 @@ export const Navigation: React.FC = () => {
               <div className="profile">
                 <img src={profileImg} alt="user-logo" />
                 <div>
-                  <p className="text-white m-0">{userData.firstName}</p>
-                  <p className="user-auth-type m-0">{userData.authType}</p>
+                  <div className="d-flex align-items-center">
+                    <p className="text-white m-0">{firstName}</p>
+                    <MdArrowDropDown size={20} color="#fff" />
+                  </div>
+                  <p className="user-auth-type m-0">{authType}</p>
                 </div>
               </div>
 
@@ -55,7 +59,7 @@ export const Navigation: React.FC = () => {
                 <ProfileMenuBtn
                   title="Logout"
                   Icon={MdOutlineLogout}
-                  onClick={() => handleLogOutBtnClick()}
+                  onClick={handleLogOutBtnClick}
                 />
               </div>
             </div>

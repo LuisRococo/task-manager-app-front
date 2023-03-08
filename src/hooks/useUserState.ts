@@ -25,14 +25,21 @@ export const useUserState = () => {
     }
 
     const responseData = await response.json();
+    const {
+      id,
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      authorization_tier: authType,
+    } = responseData;
 
     setUser({
       userData: {
-        id: responseData.id,
-        email: responseData.email,
-        firstName: responseData.first_name,
-        lastName: responseData.last_name,
-        authType: responseData.authorization_tier,
+        id,
+        email,
+        firstName,
+        lastName,
+        authType,
       },
     });
   }
