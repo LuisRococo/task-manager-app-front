@@ -8,12 +8,14 @@ import { useUserState } from "../../../hooks/useUserState";
 import { AiFillEdit } from "react-icons/ai";
 import { MdArrowDropDown, MdOutlineLogout } from "react-icons/md";
 import { ProfileMenuBtn } from "./ProfileMenuBtn";
+import { useModalState } from "../../../hooks/useModalState";
 
 export const Navigation: React.FC = () => {
   const setSelectedBoard = useSetRecoilState(selectedBoardIdState);
   const { user, logout } = useUserState();
   const { userData } = user;
   const { firstName, authType } = userData || {};
+  const { changeEditUserModalVisibility } = useModalState();
 
   function handleNavLogoClick() {
     setSelectedBoard({ id: null });
@@ -21,6 +23,10 @@ export const Navigation: React.FC = () => {
 
   function handleLogOutBtnClick() {
     logout();
+  }
+
+  function handleEditUserBtn() {
+    changeEditUserModalVisibility(true);
   }
 
   return (
@@ -52,9 +58,7 @@ export const Navigation: React.FC = () => {
                 <ProfileMenuBtn
                   title="Edit Profile"
                   Icon={AiFillEdit}
-                  onClick={() => {
-                    console.log("Placeholder");
-                  }}
+                  onClick={handleEditUserBtn}
                 />
                 <ProfileMenuBtn
                   title="Logout"

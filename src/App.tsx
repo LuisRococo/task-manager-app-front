@@ -4,6 +4,7 @@ import { Footer } from "./components/common/Footer/Footer";
 import { Navigation } from "./components/common/Navigation/Navigation";
 import { useUserState } from "./hooks/useUserState";
 import { LoadingPage } from "./pages/LoadingPage";
+import { EditUserModal } from "./components/boardPage/EditUserModal/EditUserModal";
 
 function App() {
   const { user } = useUserState();
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div>
+      <EditUserModal />
       <Navigation />
       <BoardPage />
       <Footer />
