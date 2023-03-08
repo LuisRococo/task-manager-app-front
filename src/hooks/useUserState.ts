@@ -25,13 +25,21 @@ export const useUserState = () => {
     }
 
     const responseData = await response.json();
+    const {
+      id,
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      authorization_tier: authType,
+    } = responseData;
 
     setUser({
       userData: {
-        id: responseData.id,
-        email: responseData.email,
-        firstName: responseData.first_name,
-        lastName: responseData.last_name,
+        id,
+        email,
+        firstName,
+        lastName,
+        authType,
       },
     });
   }
@@ -42,9 +50,14 @@ export const useUserState = () => {
     }
   }
 
+  function logout() {
+    removeTokenFromLocalStorage();
+    redirectToLogin();
+  }
+
   useEffect(() => {
     initUser();
   }, [userToken]);
 
-  return { user };
+  return { user, logout };
 };
