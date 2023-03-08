@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as ReactDOM from "react-dom";
 import "./EditUserModal.scss";
 import { Modal } from "../../common/Modal/Modal";
 import { useModalState } from "../../../hooks/useModalState";
+import { useUserState } from "../../../hooks/useUserState";
 
 interface formData {
   firstName: string;
@@ -11,6 +12,8 @@ interface formData {
 
 export const EditUserModal = () => {
   const { modalsVisibility, changeEditUserModalVisibility } = useModalState();
+  const { user, patchUserData } = useUserState();
+  const { id, firstName, lastName } = user.userData || {};
   const [formData, setFormData] = useState<formData>({
     firstName: "",
     lastName: "",
@@ -20,11 +23,29 @@ export const EditUserModal = () => {
     changeEditUserModalVisibility(false);
   }
 
-  function handleEditUserSubmition() {}
+  async function handleEditUserSubmition(e: React.FormEvent) {
+    try {
+      e.preventDefault();
+      if (id) {
+        const { firstName, lastName } = formData;
+        await patchUserData(id, firstName, lastName);
+        changeEditUserModalVisibility(false);
+      }
+    } catch (error) {
+      alert("There was an error, try again later");
+    }
+    return;
+  }
 
   function handleInputChange(inputName: string, newValue: string) {
     setFormData({ ...formData, [inputName]: newValue });
   }
+
+  useEffect(() => {
+    if (firstName && lastName) {
+      setFormData({ firstName, lastName });
+    }
+  }, [user.userData]);
 
   return (
     <>
@@ -34,9 +55,9 @@ export const EditUserModal = () => {
           onClose={handleModalClose}
         >
           <div style={{ minWidth: 700 }}>
-            <h3>Create Task List</h3>
+            <h3>Edit user profile</h3>
             <p className="text-muted">
-              <small>Task List</small>
+              <small>User</small>
             </p>
             <hr />
 

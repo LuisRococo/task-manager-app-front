@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { useTokenState } from "./useTokenState";
 import { userState } from "../appState/userState";
 import { useRecoilState } from "recoil";
+import { client } from "../components/wrappers/ApolloConfig";
+import { patchUserQuerie } from "../queries/userQueries";
 
 export const useUserState = () => {
   const { userToken, removeTokenFromLocalStorage, redirectToLogin } =
@@ -44,6 +46,27 @@ export const useUserState = () => {
     });
   }
 
+  async function patchUserData(
+    id: number,
+    firstName: string,
+    lastName: string
+  ) {
+    if (!user.userData) return;
+
+    const queryResult = await client.mutate({
+      mutation: patchUserQuerie,
+      variables: {
+        id,
+        firstName,
+        lastName,
+      },
+    });
+
+    setUser({ userData: { ...user.userData, firstName, lastName } });
+
+    return queryResult.data.patchUser;
+  }
+
   async function initUser() {
     if (userToken.token) {
       await fetchUserData(userToken.token);
@@ -59,5 +82,5 @@ export const useUserState = () => {
     initUser();
   }, [userToken]);
 
-  return { user, logout };
+  return { user, logout, patchUserData };
 };
