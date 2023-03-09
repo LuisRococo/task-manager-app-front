@@ -34,9 +34,15 @@ export const useTokenState = () => {
     }
 
     if (token) {
+      clearQueryParamsFromURL();
       saveTokenToLocalStorage(token);
       setUserToken({ token });
     }
+  }
+
+  function clearQueryParamsFromURL() {
+    const currentURL = window.location.href;
+    window.history.pushState({}, "", currentURL.split("?")[0]);
   }
 
   useEffect(() => {
