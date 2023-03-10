@@ -35,3 +35,9 @@ export const taskStateMockData3: ITask = {
   taskList: { id: 1, name: "test" },
   title: "task test title 3",
 };
+
+export const taskStateMockDataArray: ITask[] = [
+  taskStateMockData1,
+  taskStateMockData2,
+  taskStateMockData3,
+];
