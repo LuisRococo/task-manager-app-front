@@ -5,7 +5,7 @@ export const EmptyTaskListCard: React.FC = () => {
   return (
     <div className="border rounded text-center p-4">
       <p className="p-0 m-0 text-muted">
-        <small>No Tasks</small>
+        <small data-testid="task-list-no-tasks-card-text">No Tasks</small>
       </p>
     </div>
   );
