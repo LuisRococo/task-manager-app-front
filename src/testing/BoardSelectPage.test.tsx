@@ -36,12 +36,16 @@ jest.mock("../hooks/useBoardState", () => ({
   },
 }));
 
-it("Board select page renders it title correctly", () => {
-  const { getByTestId } = render(
+it("Board select page renders it title correctly", async () => {
+  const { getByTestId, getAllByTestId } = render(
     <RecoilRoot>
       <BoardSelectPage />
     </RecoilRoot>
   );
+
+  await waitFor(() => {
+    expect(getAllByTestId("board-card-title")[0]).toBeInTheDocument();
+  });
 
   const boardSelectPageHeader = getByTestId("board-select-page-header");
 
