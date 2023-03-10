@@ -7,7 +7,7 @@ const config: Config.InitialOptions = {
     "^.+\\.tsx?$": "ts-jest",
   },
   moduleNameMapper: {
-    "\\.(scss|css)$": "<rootDir>/src/testing/jest/__mocks__/styleMock.ts",
+    "\\.(scss|css)$": "<rootDir>/src/testing/__mocks__/styleMock.ts",
   },
 };
 export default config;

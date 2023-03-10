@@ -13,7 +13,9 @@ export const SelectionPageHeader = () => {
           />
           <div className="d-flex flex-column justify-content-center">
             <div className="d-flex align-items-start">
-              <h3 className="m-0">Boards Menu</h3>
+              <h3 className="m-0" data-testid="board-select-page-header">
+                Boards Menu
+              </h3>
             </div>
             <p className="m-0 p-0 text-secondary fst-italic">Boards</p>
           </div>
