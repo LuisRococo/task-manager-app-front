@@ -1,8 +1,14 @@
 import React from "react";
-import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
+import fetch from "cross-fetch";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  HttpLink,
+} from "@apollo/client";
 
 export const client = new ApolloClient({
-  uri: "http://127.0.0.1:3000/graphql",
+  link: new HttpLink({ uri: "http://127.0.0.1:3000/graphql", fetch }),
   cache: new InMemoryCache(),
 });
 
