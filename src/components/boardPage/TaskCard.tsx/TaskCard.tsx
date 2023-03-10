@@ -81,7 +81,7 @@ export const TaskCard: React.FC<ITask> = ({
         style={{ opacity }}
       >
         <small className="text-muted fst-italic">Task</small>
-        <p>{title}</p>
+        <p data-testid="task-card-title">{title}</p>
         <hr />
         <p>
           <strong>Author: </strong>
