@@ -18,7 +18,7 @@ export const BoardCard: FC<IBoardCard> = ({
   return (
     <div className="col-md-6 my-2 px-2">
       <div className="bg-light  rounded p-4">
-        <h4>{boardTitle}</h4>
+        <h4 data-testid="board-card-title">{boardTitle}</h4>
         <hr />
         <div className="d-flex justify-content-end">
           <button onClick={handleButtonClick} className="btn btn-primary">
