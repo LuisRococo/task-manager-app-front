@@ -25,7 +25,7 @@ export const boardPageBoardsData: IBoardCard[] = [
   },
 ];
 
-export const boardsDataMock: { id: number; title: string }[] = [
+export const userBoardsFetchResultMock: { id: number; title: string }[] = [
   { id: 1, title: "Board title 1" },
   { id: 2, title: "Board title 2" },
   { id: 3, title: "Board title 3" },

@@ -3,22 +3,15 @@ import { BoardSelectPage } from "../pages/BoardSelectPage";
 import React from "react";
 import { RecoilRoot } from "recoil";
 import { IUserState } from "../appState/userState";
-import { boardsDataMock } from "./__mocks__/mockData/boardSelectPageData";
+import { userBoardsFetchResultMock } from "./__mocks__/mockData/boardSelectPageData";
 import "@testing-library/jest-dom";
+import { userStateMock } from "./__mocks__/mockData/userMockData";
 
 afterEach(cleanup);
 
 jest.mock("../hooks/useUserState", () => ({
   useUserState: () => {
-    const user: IUserState = {
-      userData: {
-        authType: "admin",
-        email: "admin@admin.com",
-        firstName: "admin",
-        lastName: "admin",
-        id: 1,
-      },
-    };
+    const user: IUserState = userStateMock;
 
     return { user };
   },
@@ -28,7 +21,8 @@ jest.mock("../hooks/useBoardState", () => ({
   useBoardState: () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const fetchUserBoards = async (userId: number) => {
-      const userBoards: { id: number; title: string }[] = boardsDataMock;
+      const userBoards: { id: number; title: string }[] =
+        userBoardsFetchResultMock;
       return userBoards;
     };
 
@@ -36,7 +30,7 @@ jest.mock("../hooks/useBoardState", () => ({
   },
 }));
 
-it("Board select page renders it title correctly", async () => {
+it("Should render page title correctly", async () => {
   const { getByTestId, getAllByTestId } = render(
     <RecoilRoot>
       <BoardSelectPage />
@@ -67,7 +61,7 @@ it("Should render board cards", async () => {
 
   for (let index = 0; index < boardCardHeaders.length; index++) {
     const boardHeaderText = boardCardHeaders[index].textContent;
-    const mockedBoardTitle = boardsDataMock[index].title;
+    const mockedBoardTitle = userBoardsFetchResultMock[index].title;
 
     expect(boardHeaderText).toBe(mockedBoardTitle);
   }
