@@ -10,7 +10,7 @@ export const TaskCardStatus: React.FC<TaskCardStatus> = ({ completed }) => {
   return (
     <div className={`${backgroundClass} rounded px-2 py-1 text-white`}>
       <p className="p-0 m-0">
-        <small>{textContent}</small>
+        <small data-testid="task-card-tag-text">{textContent}</small>
       </p>
     </div>
   );

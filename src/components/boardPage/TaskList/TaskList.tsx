@@ -7,7 +7,7 @@ import { useDrop } from "react-dnd";
 import { DragAndDropItems } from "../../../utils/dragAndDropTypes";
 import { TaskDraggableIcon } from "./TaskDraggableIcon";
 
-interface ITaskList {
+export interface ITaskList {
   taskList: ITaskListState;
   onClick: (taskList: ITaskListState) => void;
 }
@@ -50,7 +50,9 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
             className="w-100 rounded-top p-3 text-center border"
             style={headerStyle}
           >
-            <p className="h6 m-0">{name}</p>
+            <p data-testid="task-list-title-text" className="h6 m-0">
+              {name}
+            </p>
             <small className="text-muted">{priority}° Priority</small>
           </div>
           <div
