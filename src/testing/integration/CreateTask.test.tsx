@@ -1,16 +1,21 @@
-import { cleanup, render } from "@testing-library/react";
+import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { taskListState } from "../../appState/taskListState";
-import { useEffect } from "react";
+import { createRef, useEffect } from "react";
 import { randomInteger } from "../../utils/utils";
 import { ITask } from "../../interfaces/task";
 import { ITaskListState } from "../../interfaces/taskList";
 import { CreateTaskModal } from "../../components/boardPage/CreateTaskModal/CreateTaskModal";
 import { useModalState } from "../../hooks/useModalState";
+import { TaskListContainer } from "../../components/boardPage/TaskListContainer/TaskListContainer";
 
-const root = document.createElement("div");
-root.id = "create-task-modal";
-document.body.appendChild(root);
+const createTaskModal = document.createElement("div");
+createTaskModal.id = "create-task-modal";
+document.body.appendChild(createTaskModal);
+
+const listOptionModal = document.createElement("div");
+listOptionModal.id = "task-list-option-modal";
+document.body.appendChild(listOptionModal);
 
 afterEach(cleanup);
 
@@ -54,22 +59,29 @@ jest.mock("../../hooks/useTaskState", () => ({
   },
 }));
 
+jest.mock("react-dnd", () => ({
+  useDrop: () => [0, createRef()],
+  useDrag: () => [{ opacity: 1 }, createRef()],
+}));
+
 jest.mock("../../hooks/useTaskListState", () => ({
   useTaskListState: () => {
     const [taskLists, setTaskLists] = useRecoilState(taskListState);
     const { changeCreateTaskModalVisibility } = useModalState();
 
     const addInitialTaskList = () => {
-      setTaskLists([
-        ...taskLists,
-        {
-          id: randomInteger(1, 10000),
-          color: "#fff",
-          name: "test task list 1",
-          priority: 1,
-          tasks: [],
-        },
-      ]);
+      if (taskLists.length == 0) {
+        setTaskLists([
+          ...taskLists,
+          {
+            id: randomInteger(1, 10000),
+            color: "#fff",
+            name: "test task list 1",
+            priority: 1,
+            tasks: [],
+          },
+        ]);
+      }
     };
 
     const openCreateTaskModal = () => {
@@ -97,4 +109,29 @@ it("Create task modal should be visible", () => {
   const modalContainer = getByTestId("create-task-modal-cont");
 
   expect(modalContainer).toBeDefined();
+});
+
+it("CreateTaskModal adds a new Task", async () => {
+  const { getByTestId, findByTestId } = render(
+    <>
+      <RecoilRoot>
+        <CreateTaskModal />
+        <TaskListContainer />
+      </RecoilRoot>
+    </>
+  );
+  const modalCreateTaskBtn = await getByTestId("modal-create-task-btn-submit");
+
+  const inputTaskName = await getByTestId("create-task-modal-input-title");
+  fireEvent.change(inputTaskName, { target: { value: "Task test" } });
+
+  fireEvent.click(modalCreateTaskBtn);
+
+  const taskTitle = await findByTestId("task-card-title");
+
+  await waitFor(async () => {
+    expect(taskTitle).toBeDefined();
+  });
+
+  expect(taskTitle.textContent).toBe("Task test");
 });

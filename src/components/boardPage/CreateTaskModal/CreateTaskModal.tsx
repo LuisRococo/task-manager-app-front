@@ -88,6 +88,7 @@ export const CreateTaskModal = () => {
                           type="text"
                           className="form-control"
                           value={formData.title}
+                          data-testid="create-task-modal-input-title"
                           onChange={(e) =>
                             handleInputChange("title", e.target.value)
                           }
@@ -101,6 +102,7 @@ export const CreateTaskModal = () => {
                         <select
                           className="form-select"
                           value={formData.idTaskList}
+                          data-testid="create-task-modal-input-list"
                           onChange={(e) => {
                             handleInputChange("idTaskList", e.target.value);
                           }}
@@ -121,6 +123,7 @@ export const CreateTaskModal = () => {
                           type="number"
                           className="form-control"
                           value={formData.points}
+                          data-testid="create-task-modal-input-points"
                           onChange={(e) =>
                             handleInputChange("points", e.target.value)
                           }
@@ -135,6 +138,7 @@ export const CreateTaskModal = () => {
                           className="form-control"
                           rows={3}
                           value={formData.description}
+                          data-testid="create-task-modal-input-description"
                           onChange={(e) =>
                             handleInputChange("description", e.target.value)
                           }
