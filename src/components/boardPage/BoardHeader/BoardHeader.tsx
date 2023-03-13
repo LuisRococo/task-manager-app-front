@@ -33,7 +33,9 @@ const BoardHeader: React.FC<IBoardHeader> = ({
           />
           <div className="d-flex flex-column justify-content-center">
             <div className="d-flex align-items-center">
-              <h5 className="m-0">{projectTitle}</h5>
+              <h5 data-testid="board-header-title" className="m-0">
+                {projectTitle}
+              </h5>
               <div
                 onClick={handleBoardOptionBtnClick}
                 className="edit-board-btn ms-2"
