@@ -71,7 +71,7 @@ export const CreateTaskModal = () => {
           visibility={modalsVisibility.createTaskModal}
         >
           <div style={{ minWidth: 700 }}>
-            <div>
+            <div data-testid="create-task-modal-cont">
               <h3>Create Task</h3>
               <p className="text-muted">
                 <small>Task</small>
@@ -144,7 +144,11 @@ export const CreateTaskModal = () => {
                   </div>
 
                   <div className="d-flex justify-content-end">
-                    <button type="submit" className="btn btn-primary">
+                    <button
+                      data-testid="modal-create-task-btn-submit"
+                      type="submit"
+                      className="btn btn-primary"
+                    >
                       Create
                     </button>
                   </div>
