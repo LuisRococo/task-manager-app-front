@@ -1,4 +1,10 @@
-import { cleanup, fireEvent, render, waitFor } from "@testing-library/react";
+import {
+  cleanup,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from "@testing-library/react";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { taskListState } from "../../appState/taskListState";
 import { createRef, useEffect } from "react";
@@ -8,14 +14,6 @@ import { ITaskListState } from "../../interfaces/taskList";
 import { CreateTaskModal } from "../../components/boardPage/CreateTaskModal/CreateTaskModal";
 import { useModalState } from "../../hooks/useModalState";
 import { TaskListContainer } from "../../components/boardPage/TaskListContainer/TaskListContainer";
-
-const createTaskModal = document.createElement("div");
-createTaskModal.id = "create-task-modal";
-document.body.appendChild(createTaskModal);
-
-const listOptionModal = document.createElement("div");
-listOptionModal.id = "task-list-option-modal";
-document.body.appendChild(listOptionModal);
 
 afterEach(cleanup);
 
@@ -97,22 +95,16 @@ jest.mock("../../hooks/useTaskListState", () => ({
   },
 }));
 
-it("Create task modal should be visible", () => {
-  const { getByTestId } = render(
-    <>
-      <RecoilRoot>
-        <CreateTaskModal />
-      </RecoilRoot>
-    </>
-  );
+function setup() {
+  const createTaskModalPortal = document.createElement("div");
+  createTaskModalPortal.id = "create-task-modal";
+  document.body.appendChild(createTaskModalPortal);
 
-  const modalContainer = getByTestId("create-task-modal-cont");
+  const listOptionModalPortal = document.createElement("div");
+  listOptionModalPortal.id = "task-list-option-modal";
+  document.body.appendChild(listOptionModalPortal);
 
-  expect(modalContainer).toBeDefined();
-});
-
-it("CreateTaskModal adds a new Task", async () => {
-  const { getByTestId, findByTestId } = render(
+  render(
     <>
       <RecoilRoot>
         <CreateTaskModal />
@@ -120,14 +112,30 @@ it("CreateTaskModal adds a new Task", async () => {
       </RecoilRoot>
     </>
   );
-  const modalCreateTaskBtn = await getByTestId("modal-create-task-btn-submit");
+}
 
-  const inputTaskName = await getByTestId("create-task-modal-input-title");
+it("Create task modal should be visible", () => {
+  setup();
+
+  const modalContainer = screen.getByTestId("create-task-modal-cont");
+
+  expect(modalContainer).toBeDefined();
+});
+
+it("CreateTaskModal adds a new Task", async () => {
+  setup();
+  const modalCreateTaskBtn = await screen.getByTestId(
+    "modal-create-task-btn-submit"
+  );
+
+  const inputTaskName = await screen.getByTestId(
+    "create-task-modal-input-title"
+  );
   fireEvent.change(inputTaskName, { target: { value: "Task test" } });
 
   fireEvent.click(modalCreateTaskBtn);
 
-  const taskTitle = await findByTestId("task-card-title");
+  const taskTitle = await screen.findByTestId("task-card-title");
 
   await waitFor(async () => {
     expect(taskTitle).toBeDefined();
