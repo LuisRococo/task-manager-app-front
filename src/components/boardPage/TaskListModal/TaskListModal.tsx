@@ -80,7 +80,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
 
   return (
     <Modal visibility={true} onClose={handleOnCloseModal}>
-      <div style={{ minWidth: 700 }}>
+      <div style={{ minWidth: 700 }} data-testid="task-list-modal-container">
         <h3>{taskList.name}</h3>
         <p className="text-muted">
           <small>Task List</small>
@@ -141,6 +141,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
 
             <div className="d-flex justify-content-end">
               <button
+                data-testid="task-list-modal-delete-btn"
                 type="button"
                 className="btn btn-danger me-2"
                 onClick={handleDeleteBtnClick}

@@ -44,6 +44,7 @@ export const TaskList: React.FC<ITaskList> = ({ taskList, onClick }) => {
           onClick={() => {
             onClick(taskList);
           }}
+          data-testid={`task-list-header-${listId}`}
         >
           <div
             ref={drop}
