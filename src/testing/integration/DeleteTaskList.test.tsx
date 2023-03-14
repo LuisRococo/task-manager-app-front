@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+
 import { MockedProvider } from "@apollo/react-testing";
 import {
   cleanup,
@@ -77,7 +79,6 @@ it("TaskList details modal should be visible", async () => {
     expect(taskListModal).toBeNull();
   });
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   fireEvent.click(taskListHeader!);
 
   await waitFor(() => {
@@ -90,7 +91,6 @@ it("TaskList details modal should be able to delete task list", async () => {
 
   const taskListHeader = screen.queryByTestId("task-list-header-1");
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
   fireEvent.click(taskListHeader!);
 
   await waitFor(async () => {
