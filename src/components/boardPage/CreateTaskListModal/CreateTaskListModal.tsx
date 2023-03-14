@@ -61,6 +61,7 @@ export const CreateTaskListModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Name</label>
                       <input
+                        data-testid="create-list-modal-input-title"
                         type="text"
                         className="form-control"
                         value={formValues.name}
@@ -99,7 +100,11 @@ export const CreateTaskListModal = () => {
                 </div>
 
                 <div className="d-flex justify-content-end">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    data-testid="task-list-modal-submit-btn"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Create
                   </button>
                 </div>

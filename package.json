@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@apollo/client": "^3.7.9",
+    "@apollo/react-testing": "^4.0.0",
     "@babel/core": "^7.21.0",
     "@popperjs/core": "^2.11.6",
     "bootstrap": "^5.2.3",
