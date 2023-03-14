@@ -59,6 +59,18 @@ function setup() {
   );
 }
 
+it("CreateTaskList modal should be visible", async () => {
+  setup();
+
+  const createListContainer = await screen.findByTestId(
+    "create-task-modal-container"
+  );
+
+  await waitFor(() => {
+    expect(createListContainer).toBeDefined();
+  });
+});
+
 it("CreateTaskList modal should add a new TaskList on submit", async () => {
   setup();
 

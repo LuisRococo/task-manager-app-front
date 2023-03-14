@@ -47,7 +47,10 @@ export const CreateTaskListModal = () => {
           visibility={modalsVisibility.createTaskListModal}
           onClose={handleModalClose}
         >
-          <div style={{ minWidth: 700 }}>
+          <div
+            data-testid="create-task-modal-container"
+            style={{ minWidth: 700 }}
+          >
             <h3>Create Task List</h3>
             <p className="text-muted">
               <small>Task List</small>
