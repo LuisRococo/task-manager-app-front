@@ -75,6 +75,7 @@ export const TaskCard: React.FC<ITask> = ({
   return (
     <div ref={drop}>
       <div
+        data-testid={`task-card-container-${taskId}`}
         className="task-card rounded border px-2 py-3 mb-3 bg-light"
         onClick={handleTaskClick}
         ref={dragRef}

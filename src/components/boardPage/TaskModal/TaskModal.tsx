@@ -110,7 +110,7 @@ export const TaskModal = () => {
           onClose={handleModalClose}
           visibility={modalsVisibility.taskDetailsModal.visibility}
         >
-          <div style={{ minWidth: 700 }}>
+          <div data-testid="task-modal-cont" style={{ minWidth: 700 }}>
             <div className="d-flex mb-2">
               <TaskCardStatus completed={taskData?.completed === true} />
             </div>
@@ -180,6 +180,7 @@ export const TaskModal = () => {
 
                 <div className="d-flex justify-content-end">
                   <button
+                    data-testid="task-modal-delete-btn"
                     type="button"
                     className="btn btn-danger me-2"
                     onClick={handleDeleteBtnClick}
