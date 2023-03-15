@@ -19,7 +19,7 @@ export const TaskModalData: React.FC<TaskModelData> = ({ taskData }) => {
 
       <p className="m-0">
         <strong>Points: </strong>
-        {points}
+        <span data-testid="task-modal-points">{points}</span>
       </p>
 
       <p className="m-0">
@@ -30,7 +30,9 @@ export const TaskModalData: React.FC<TaskModelData> = ({ taskData }) => {
       <p className="mt-3 m-0">
         <strong className="">Description: </strong>
       </p>
-      <p className="m-0">{description}</p>
+      <p className="m-0">
+        <span data-testid="task-modal-description">{description}</span>
+      </p>
 
       <p className="mt-3 m-0">
         <strong className="">Attachments: </strong>

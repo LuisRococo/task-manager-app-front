@@ -114,7 +114,7 @@ export const TaskModal = () => {
             <div className="d-flex mb-2">
               <TaskCardStatus completed={taskData?.completed === true} />
             </div>
-            <h3>{taskData?.title}</h3>
+            <h3 data-testid="task-modal-title">{taskData?.title}</h3>
             <p className="text-muted">
               <small>Task</small>
             </p>
@@ -139,6 +139,7 @@ export const TaskModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Title</label>
                       <input
+                        data-testid="task-modal-title-input"
                         type="text"
                         className="form-control"
                         value={editFormData.title}
@@ -153,6 +154,7 @@ export const TaskModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Points</label>
                       <input
+                        data-testid="task-modal-points-input"
                         type="number"
                         className="form-control"
                         value={editFormData.points}
@@ -167,6 +169,7 @@ export const TaskModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Description</label>
                       <textarea
+                        data-testid="task-modal-description-input"
                         className="form-control"
                         rows={3}
                         value={editFormData.description}
@@ -187,7 +190,11 @@ export const TaskModal = () => {
                   >
                     Delete
                   </button>
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    data-testid="task-modal-update-btn"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Edit Data
                   </button>
                 </div>
