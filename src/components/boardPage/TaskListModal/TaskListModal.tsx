@@ -102,6 +102,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
                 <div className="mb-3">
                   <label className="form-label">Name</label>
                   <input
+                    data-testid="task-list-modal-name-input"
                     type="text"
                     className="form-control"
                     value={formValues.name}
@@ -115,6 +116,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
                 <div className="mb-3">
                   <label className="form-label">Priority</label>
                   <input
+                    data-testid="task-list-modal-priority-input"
                     type="number"
                     className="form-control"
                     value={formValues.priority}
@@ -128,6 +130,7 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
                 <div className="mb-3">
                   <label className="form-label">Color</label>
                   <input
+                    data-testid="task-list-modal-color-input"
                     type="color"
                     className="form-control"
                     value={formValues.color}
@@ -148,7 +151,11 @@ export const TaskListModal: React.FC<TaskListModal> = ({ taskList }) => {
               >
                 Delete
               </button>
-              <button type="submit" className="btn btn-primary">
+              <button
+                data-testid="task-list-modal-update-btn"
+                type="submit"
+                className="btn btn-primary"
+              >
                 Update
               </button>
             </div>

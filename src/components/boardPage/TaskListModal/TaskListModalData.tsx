@@ -16,15 +16,15 @@ export const TaskListModalData: React.FC<TaskListModalData> = ({
       <p className="mb-2">Data:</p>
       <p className="m-0">
         <strong>Name: </strong>
-        {name}
+        <span data-testid="list-modal-list-name">{name}</span>
       </p>
       <p className="m-0">
         <strong>Color: </strong>
-        {color}
+        <span data-testid="list-modal-list-color">{color}</span>
       </p>
       <p className="m-0">
         <strong>Priority: </strong>
-        {priority}
+        <span data-testid="list-modal-list-priority">{priority}</span>
       </p>
     </div>
   );
