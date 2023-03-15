@@ -24,6 +24,7 @@ export const ChangeTaskListForm: React.FC<IChangeTaskListForm> = ({
               <div className="mb-3">
                 <label className="form-label">Task List</label>
                 <select
+                  data-testid="task-modal-list-input"
                   className="form-select"
                   value={selectedTaskList}
                   onChange={onTaskListChange}
@@ -40,7 +41,11 @@ export const ChangeTaskListForm: React.FC<IChangeTaskListForm> = ({
         </div>
 
         <div className="d-flex justify-content-end">
-          <button type="submit" className="btn btn-primary">
+          <button
+            data-testid="task-moda-update-list-btn"
+            type="submit"
+            className="btn btn-primary"
+          >
             Update
           </button>
         </div>

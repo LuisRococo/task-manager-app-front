@@ -43,3 +43,20 @@ export const TaskListStatesWithTasks: ITaskListState[] = [
     tasks: [taskStateMockData2, taskStateMockData3],
   },
 ];
+
+export const TaskListStatesForMoveTaskMock: ITaskListState[] = [
+  {
+    id: 1,
+    color: "#ffffff",
+    name: "Task List 1",
+    priority: 1,
+    tasks: [taskBeforePatchMock],
+  },
+  {
+    id: 2,
+    color: "#ffffff",
+    name: "Task List 2",
+    priority: 2,
+    tasks: [],
+  },
+];

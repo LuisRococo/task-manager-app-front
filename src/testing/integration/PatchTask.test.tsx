@@ -9,7 +9,7 @@ import {
 } from "@testing-library/react";
 import { RecoilRoot, useSetRecoilState } from "recoil";
 import { taskListState } from "../../appState/taskListState";
-import { TaskListStatesWithTasks } from "../__mocks__/mockData/taskListStateMock";
+import { TaskListStatesForMoveTaskMock } from "../__mocks__/mockData/taskListStateMock";
 import { MockedProvider } from "@apollo/react-testing";
 import { TaskListContainer } from "../../components/boardPage/TaskListContainer/TaskListContainer";
 import { TaskModal } from "../../components/boardPage/TaskModal/TaskModal";
@@ -25,7 +25,9 @@ jest.mock("react-dnd", () => ({
 jest.mock("../../components/wrappers/ApolloConfig", () => ({
   client: {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    mutate: (mutation: any, variables: { task: ITask }) => ({}),
+    mutate: (mutation: any, variables: { task: ITask }) => ({
+      data: { order: 1 },
+    }),
   },
 }));
 
@@ -33,7 +35,7 @@ const StateInitializer: React.FC = () => {
   const setLists = useSetRecoilState(taskListState);
 
   function addDefaultTaskLists() {
-    setLists(TaskListStatesWithTasks);
+    setLists(TaskListStatesForMoveTaskMock);
   }
 
   useEffect(() => {
@@ -109,5 +111,39 @@ it("Modal should be able to patch task data", async () => {
   );
   expect(screen.getByTestId("task-modal-description").textContent).toBe(
     taskAfterPatchMock.description
+  );
+});
+
+it("Task should be able to change from lists", async () => {
+  setup();
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("task-card-container-1")).not.toBeNull();
+  });
+
+  fireEvent.click(screen.getByTestId("task-card-container-1"));
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("task-modal-cont")).not.toBeNull();
+  });
+
+  fireEvent.change(screen.getByTestId("task-modal-list-input"), {
+    target: { value: TaskListStatesForMoveTaskMock[1].id },
+  });
+
+  fireEvent.click(screen.getByTestId("task-moda-update-list-btn"));
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("task-modal-cont")).toBeNull();
+  });
+
+  fireEvent.click(screen.getByTestId("task-card-container-1"));
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("task-modal-cont")).not.toBeNull();
+  });
+
+  expect(screen.getByTestId("task-modal-list-name").textContent).toBe(
+    TaskListStatesForMoveTaskMock[1].name
   );
 });
