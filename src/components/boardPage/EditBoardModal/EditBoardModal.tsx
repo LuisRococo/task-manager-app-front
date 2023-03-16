@@ -60,6 +60,7 @@ export const EditBoardModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Title</label>
                       <input
+                        data-testid="board-modal-title-input"
                         type="text"
                         className="form-control"
                         value={formData.title}
@@ -72,7 +73,11 @@ export const EditBoardModal = () => {
                 </div>
 
                 <div className="d-flex justify-content-end">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    data-testid="board-modal-update-btn"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Edit
                   </button>
                 </div>

@@ -3,7 +3,10 @@ import BoardHeader from "../../components/boardPage/BoardHeader/BoardHeader";
 import React, { useEffect } from "react";
 import { RecoilRoot, useRecoilState } from "recoil";
 import { boardState } from "../../appState/boardState";
-import { boardBeforeChange } from "../__mocks__/mockData/boardStateMockData";
+import {
+  boardAfterChange,
+  boardBeforeChange,
+} from "../__mocks__/mockData/boardStateMockData";
 import { MockedProvider } from "@apollo/react-testing";
 import { EditBoardModal } from "../../components/boardPage/EditBoardModal/EditBoardModal";
 
@@ -51,5 +54,31 @@ it("BoardModal should be opened", async () => {
 
   await waitFor(() => {
     expect(screen.queryByTestId("board-modal-cont")).not.toBeNull();
+  });
+});
+
+it("BoardModal should be able to patch board data", async () => {
+  setup();
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("header-edit-board-btn")).not.toBeNull();
+  });
+
+  fireEvent.click(screen.getByTestId("header-edit-board-btn"));
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("board-modal-cont")).not.toBeNull();
+  });
+
+  fireEvent.change(screen.getByTestId("board-modal-title-input"), {
+    target: { value: boardAfterChange.title },
+  });
+
+  fireEvent.click(screen.getByTestId("board-modal-update-btn"));
+
+  await waitFor(() => {
+    expect(screen.queryByTestId("board-header-title")?.textContent).toBe(
+      boardAfterChange.title
+    );
   });
 });
