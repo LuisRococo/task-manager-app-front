@@ -31,11 +31,13 @@ export const EditBoardModal = () => {
     return;
   }
 
-  if (!board) return null;
-
   useEffect(() => {
-    setFormData({ ...formData, title: board.title });
+    if (board) {
+      setFormData({ ...formData, title: board.title });
+    }
   }, [modalsVisibility]);
+
+  if (!board) return null;
 
   return (
     <>
@@ -44,7 +46,7 @@ export const EditBoardModal = () => {
           visibility={modalsVisibility.boardEditModal}
           onClose={handleModalClose}
         >
-          <div style={{ minWidth: 700 }}>
+          <div data-testid="board-modal-cont" style={{ minWidth: 700 }}>
             <h3>{board.title}</h3>
             <p className="text-muted">
               <small>Board</small>
@@ -58,6 +60,7 @@ export const EditBoardModal = () => {
                     <div className="mb-3">
                       <label className="form-label">Title</label>
                       <input
+                        data-testid="board-modal-title-input"
                         type="text"
                         className="form-control"
                         value={formData.title}
@@ -70,7 +73,11 @@ export const EditBoardModal = () => {
                 </div>
 
                 <div className="d-flex justify-content-end">
-                  <button type="submit" className="btn btn-primary">
+                  <button
+                    data-testid="board-modal-update-btn"
+                    type="submit"
+                    className="btn btn-primary"
+                  >
                     Edit
                   </button>
                 </div>

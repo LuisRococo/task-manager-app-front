@@ -37,6 +37,7 @@ const BoardHeader: React.FC<IBoardHeader> = ({
                 {projectTitle}
               </h5>
               <div
+                data-testid="header-edit-board-btn"
                 onClick={handleBoardOptionBtnClick}
                 className="edit-board-btn ms-2"
               >
