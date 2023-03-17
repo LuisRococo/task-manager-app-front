@@ -21,7 +21,11 @@ export const BoardCard: FC<IBoardCard> = ({
         <h4 data-testid="board-card-title">{boardTitle}</h4>
         <hr />
         <div className="d-flex justify-content-end">
-          <button onClick={handleButtonClick} className="btn btn-primary">
+          <button
+            data-testid="board-card-see-btn"
+            onClick={handleButtonClick}
+            className="btn btn-primary"
+          >
             See
           </button>
         </div>

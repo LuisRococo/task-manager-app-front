@@ -32,7 +32,10 @@ export const BoardSelectPage = () => {
   }, [user]);
 
   return (
-    <div className="page-cont full-height-cont">
+    <div
+      data-testid="board-select-pg-cont"
+      className="page-cont full-height-cont"
+    >
       <SelectionPageHeader />
       <div className="container">
         <div className="row">
